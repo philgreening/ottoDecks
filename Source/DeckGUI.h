@@ -24,9 +24,15 @@ class DeckGUI : public juce::Component,
                 public juce::Timer        
 {
 public:
+    //DeckGUI(int _id,
+    //        DJAudioPlayer* player,
+    //        juce::AudioFormatManager& formatManagerToUse,
+    //        juce::AudioThumbnailCache& cacheToUse);
+
     DeckGUI(DJAudioPlayer* player,
-        juce::AudioFormatManager& formatManagerToUse,
-        juce::AudioThumbnailCache& cacheToUse);
+            juce::AudioFormatManager& formatManagerToUse,
+            juce::AudioThumbnailCache& cacheToUse);
+        
 
     ~DeckGUI() override;
 
@@ -44,7 +50,12 @@ public:
 
     void timerCallback() override;
 
+    void loadFile(juce::URL audioURL);
+
+
 private:
+
+    //int id;
 
     juce::TextButton playButton{ "PLAY" };
     juce::TextButton stopButton{ "STOP" };
@@ -55,6 +66,7 @@ private:
     juce::Slider posSlider;
 
     DJAudioPlayer* player;
+   
 
     WaveformDisplay waveformDisplay;
 

@@ -12,12 +12,20 @@
 #include "WaveformDisplay.h"
 
 //==============================================================================
+//WaveformDisplay::WaveformDisplay(int _id,
+//                                 juce::AudioFormatManager& formatManagerToUse,
+//                                 juce::AudioThumbnailCache& cacheToUse) :
+//                                 audioThumb(1000, formatManagerToUse, cacheToUse),
+//                                 fileLoaded(false),
+//                                 position(0),
+//                                 id(_id)
+
 WaveformDisplay::WaveformDisplay(juce::AudioFormatManager& formatManagerToUse,
                                  juce::AudioThumbnailCache& cacheToUse) :
                                  audioThumb(1000, formatManagerToUse, cacheToUse),
                                  fileLoaded(false),
-                                 position(0)
-
+                                 position(0
+                                )
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
@@ -78,6 +86,7 @@ void WaveformDisplay::resized()
 void WaveformDisplay::loadURL(juce::URL audioURL)
 {
     std::cout << "wfd:: loadURL" << std::endl;
+    DBG("wfd:: loadURL");
 
     audioThumb.clear();
     fileLoaded = audioThumb.setSource(new juce::URLInputSource(audioURL));
@@ -85,9 +94,11 @@ void WaveformDisplay::loadURL(juce::URL audioURL)
     if (fileLoaded)
     {
         std::cout << "wfd: loaded! " << std::endl;
+        DBG("wfd:: loaded!");
         repaint();
     }
     else {
+        DBG("wfd:: not loaded!");
         std::cout << "wfd: not loaded! " << std::endl;
 
     }
@@ -96,13 +107,14 @@ void WaveformDisplay::loadURL(juce::URL audioURL)
 void WaveformDisplay::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
     std::cout << "wfd: change recieved! " << std::endl;
+    DBG("wfd: change recieved! ");
     repaint();
 
 }
 
 void WaveformDisplay::setPositionRelative(double pos)
 {
-    if (pos != position)
+    if (pos != position && !isnan(pos))
     {
         position = pos;
         repaint();

@@ -36,15 +36,18 @@ private:
     juce::AudioFormatManager formatManager;
     juce::AudioThumbnailCache thumbCache{ 100 };
 
-    DJAudioPlayer player1{formatManager};
+    DJAudioPlayer player1{ formatManager };
     DJAudioPlayer player2{ formatManager };
+
+    /*DeckGUI deckGUI1{1, &player1, formatManager, thumbCache };
+    DeckGUI deckGUI2{2, &player2, formatManager, thumbCache };*/
 
     DeckGUI deckGUI1{ &player1, formatManager, thumbCache };
     DeckGUI deckGUI2{ &player2, formatManager, thumbCache };
 
     juce::MixerAudioSource mixerSource;
 
-    PlaylistComponent playlistComponent;
+    PlaylistComponent playlistComponent{ &deckGUI1, &deckGUI2 };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 

@@ -12,11 +12,20 @@
 #include "DeckGUI.h"
 
 //==============================================================================
-DeckGUI::DeckGUI(DJAudioPlayer* _player,
-                juce::AudioFormatManager& formatManagerToUse,
-                juce::AudioThumbnailCache& cacheToUse
-                ): player(_player),
-                   waveformDisplay(formatManagerToUse, cacheToUse)
+//DeckGUI::DeckGUI(int _id,
+//                DJAudioPlayer* _player,
+//                juce::AudioFormatManager& formatManagerToUse,
+//                juce::AudioThumbnailCache& cacheToUse
+//                ) : id(_id),
+//                   player(_player),
+//                   waveformDisplay(id, formatManagerToUse, cacheToUse)
+
+
+    DeckGUI::DeckGUI(DJAudioPlayer* _player,
+                    juce::AudioFormatManager& formatManagerToUse,
+                    juce::AudioThumbnailCache& cacheToUse
+                    ) : player(_player),
+                        waveformDisplay(formatManagerToUse, cacheToUse)                  
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
@@ -156,5 +165,10 @@ void DeckGUI::timerCallback()
 
     waveformDisplay.setPositionRelative(
             player->getPositionRelative());
+}
+void DeckGUI::loadFile(juce::URL audioURL)
+{
+    player->loadURL(audioURL);
+    waveformDisplay.loadURL(audioURL);
 }
 

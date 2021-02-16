@@ -11,6 +11,8 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "DJAudioPlayer.h"
+#include "DeckGUI.h"
 
 //==============================================================================
 /*
@@ -18,9 +20,13 @@
 class PlaylistComponent  : public juce::Component,
                            public juce::TableListBoxModel,
                            public juce::Button::Listener
+                            
 {
 public:
-    PlaylistComponent();
+    PlaylistComponent(DeckGUI* _deckGUI1,
+                      DeckGUI* _deckGUI2
+                      );
+
     ~PlaylistComponent() override;
 
     void paint (juce::Graphics&) override;
@@ -50,8 +56,28 @@ public:
     
 private:
 
-    juce::TableListBox tableComponent;
-    std::vector<std::string> trackTitles;
+    void importTrack();
+    void loadTrack(DeckGUI* deckGUI);
+    void removeTrack(int id);
 
+    juce::TableListBox tableComponent;
+    //juce::TextButton* btn = new juce::TextButton{ "play1" };
+    //juce::TextButton* btn2 = new juce::TextButton{ "play2" };
+   /* juce::TextButton btn { "Play1" };
+    juce::TextButton btn2 { "Play2" };*/
+
+    std::vector<juce::String> trackTitles;
+    std::vector<std::string> trackLengths;
+    std::vector<juce::String> tracks;
+    std::vector<juce::URL> trackURL;
+    
+    juce::TextButton importButton{ "Import Track" };
+    juce::TextButton loadDeck1Button{ "Load Track to Deck 1" };
+    juce::TextButton loadDeck2Button{ "Load Track to Deck 2" };
+
+
+    //DJAudioPlayer* player;
+    DeckGUI* deckGUI1;
+    DeckGUI* deckGUI2;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlaylistComponent)
 };
