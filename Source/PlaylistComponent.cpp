@@ -22,14 +22,6 @@ PlaylistComponent::PlaylistComponent(DeckGUI* _deckGUI1,
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
 
-    /*trackTitles.push_back("Track 1");
-    trackTitles.push_back("Track 2");
-    trackTitles.push_back("Track 3");
-    trackTitles.push_back("Track 4");
-    trackTitles.push_back("Track 5");
-    trackTitles.push_back("Track 6");*/
-
-
     tableComponent.getHeader().addColumn("Track title", 1, 400);
     tableComponent.getHeader().addColumn("2", 2, 200);
     tableComponent.getHeader().addColumn("3", 3, 50);
@@ -46,14 +38,16 @@ PlaylistComponent::PlaylistComponent(DeckGUI* _deckGUI1,
     loadDeck2Button.addListener(this);
 
 
+    trackListFile = juce::File::getSpecialLocation(juce::File::SpecialLocationType::userMusicDirectory).getChildFile("TrackList.xml");
 
-   //importTrack();
+    loadTracklist();
 
 
 }
 
 PlaylistComponent::~PlaylistComponent()
 {
+    saveTracklist();
 }
 
 void PlaylistComponent::paint (juce::Graphics& g)
@@ -91,7 +85,7 @@ void PlaylistComponent::resized()
 
 int PlaylistComponent::getNumRows()
 {
-    return trackTitles.size();
+    return trackData.size();
 }
 
 void PlaylistComponent::paintRowBackground(juce::Graphics & g,
@@ -121,19 +115,23 @@ void PlaylistComponent::paintCell(juce::Graphics & g,
     {
         if (columnId == 1)
         {
-            g.drawText(trackTitles[rowNumber],
+            g.drawText(trackData[rowNumber].title,
                 2, 0,
                 width - 4, height,
                 juce::Justification::centredLeft,
                 true);
         }
-        
+
+        //if (columnId == 2)
+        //{
+        //    g.drawText(trackData[rowNumber].url,
+        //        2, 0,
+        //        width - 4, height,
+        //        juce::Justification::centredLeft,
+        //        true);
+        //}
     }
-   /* g.drawText(trackTitles[rowNumber],
-               2, 0,
-               width - 4, height,
-               juce::Justification::centredLeft,
-               true);*/
+   
 }
 
 juce::Component* PlaylistComponent::refreshComponentForCell(int rowNumber,
@@ -155,19 +153,19 @@ juce::Component* PlaylistComponent::refreshComponentForCell(int rowNumber,
     }
     return existingComponentToUpdate;
 
-  /* if (columnId == 3)
-    {
-        if (existingComponentToUpdate == nullptr)
-        {
-            juce::TextButton* btn2 = new juce::TextButton{ "play2" };
-            juce::String id{ std::to_string(rowNumber) };
-            btn2->setComponentID(id);
+  //if (columnId == 2)
+  //  {
+  //      if (existingComponentToUpdate == nullptr)
+  //      {
+  //          juce::TextButton* btn2 = new juce::TextButton{ "play2" };
+  //          juce::String id{ std::to_string(rowNumber) };
+  //          btn2->setComponentID(id);
 
-            btn2->addListener(this);
-            existingComponentToUpdate = btn2;
-        }
-    }
-    return existingComponentToUpdate;*/
+  //          btn2->addListener(this);
+  //          existingComponentToUpdate = btn2;
+  //      }
+  //  }
+  //  return existingComponentToUpdate;
 
 }
 
@@ -207,14 +205,12 @@ void PlaylistComponent::buttonClicked(juce::Button* button)
     else
     {
         int id = std::stoi(button->getComponentID().toStdString());
-        std::cout << "PlaylistComponent::buttonClicked " << trackTitles[id] << std::endl;
-        DBG("PlaylistComponent::buttonClicked " + trackTitles[id]);
+        std::cout << "PlaylistComponent::buttonClicked " << trackData[id].title << std::endl;
+        DBG("PlaylistComponent::buttonClicked " + trackData[id].title);
         removeTrack(id);
         tableComponent.updateContent();
 
     }
-    
-   
 }
 
 void PlaylistComponent::importTrack()
@@ -226,15 +222,14 @@ void PlaylistComponent::importTrack()
     {
         for (const juce::File& file : fileSelect.getResults())
         {
-            
             juce::String fileName{ file.getFileNameWithoutExtension() };
-            juce::URL audioFileURL{ file };
-            trackTitles.push_back(fileName);
-            trackURL.push_back(audioFileURL);
-        }
-        
+            juce::URL url{ file };
+
+            Track addTrack(fileName, url);
+            trackData.push_back(addTrack);
+
+        };
     }
-  
 }
 
 void PlaylistComponent::loadTrack(DeckGUI* deckGUI)
@@ -242,13 +237,47 @@ void PlaylistComponent::loadTrack(DeckGUI* deckGUI)
     int selectedRow{ tableComponent.getSelectedRow() };
     if (selectedRow != -1)
     {
-        deckGUI->loadFile(trackURL[selectedRow]);
+        deckGUI->loadFile(trackData[selectedRow].url);
     }
 }
 
 void  PlaylistComponent::removeTrack(int id)
 {
-    trackTitles.erase(trackTitles.begin() + id);
-    trackURL.erase(trackURL.begin() + id);
+    trackData.erase(trackData.begin() + id);
+}
 
+void  PlaylistComponent::saveTracklist()
+{
+        juce::XmlElement trackList { "Track_List" };
+        std::vector<juce::String> test;
+
+    for (Track& e : trackData)
+    {
+        juce::XmlElement* track = new juce::XmlElement{ "Track" };
+
+        track->setAttribute("title", e.title);
+        track->setAttribute("URL", e.url.toString(false));
+        trackList.addChildElement(track);
+        DBG("PlaylistComponent::saveTracklist URL: " << e.url.toString(false));
+    }
+    trackList.writeTo(trackListFile);
+
+}
+
+void PlaylistComponent::loadTracklist()
+{
+    if (trackListFile.exists())
+    {
+        xmlData = juce::parseXML(trackListFile);
+       
+        forEachXmlChildElement(*xmlData, data)
+
+        {
+            juce::URL fpath = data->getStringAttribute("URL");
+            juce::String file = data->getStringAttribute("title");
+            Track addTrack{ file, fpath };
+            trackData.push_back(addTrack);
+        }
+
+    }
 }

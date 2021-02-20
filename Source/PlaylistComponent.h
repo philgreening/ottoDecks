@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include "DJAudioPlayer.h"
 #include "DeckGUI.h"
+#include "Track.h"
 
 //==============================================================================
 /*
@@ -59,6 +60,8 @@ private:
     void importTrack();
     void loadTrack(DeckGUI* deckGUI);
     void removeTrack(int id);
+    void saveTracklist();
+    void loadTracklist();
 
     juce::TableListBox tableComponent;
     //juce::TextButton* btn = new juce::TextButton{ "play1" };
@@ -66,11 +69,14 @@ private:
    /* juce::TextButton btn { "Play1" };
     juce::TextButton btn2 { "Play2" };*/
 
-    std::vector<juce::String> trackTitles;
-    std::vector<std::string> trackLengths;
-    std::vector<juce::String> tracks;
-    std::vector<juce::URL> trackURL;
-    
+   
+    std::vector<Track> trackData;
+
+    juce::File trackListFile;
+
+
+    std::unique_ptr<juce::XmlElement> xmlData;
+
     juce::TextButton importButton{ "Import Track" };
     juce::TextButton loadDeck1Button{ "Load Track to Deck 1" };
     juce::TextButton loadDeck2Button{ "Load Track to Deck 2" };

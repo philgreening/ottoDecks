@@ -5,6 +5,8 @@
   <MAINGROUP id="Ixf8Cd" name="ottoDecks">
     <GROUP id="{1E62B325-5B9C-79B8-1253-DD5EE9883AF3}" name="Source">
       <FILE id="ZSwuUb" name="DeckGUI.cpp" compile="1" resource="0" file="Source/DeckGUI.cpp"/>
+      <FILE id="XVatHC" name="Track.cpp" compile="1" resource="0" file="Source/Track.cpp"/>
+      <FILE id="bOBM08" name="Track.h" compile="0" resource="0" file="Source/Track.h"/>
       <FILE id="AWPArM" name="DeckGUI.h" compile="0" resource="0" file="Source/DeckGUI.h"/>
       <FILE id="SdwNFG" name="DJAudioPlayer.cpp" compile="1" resource="0"
             file="Source/DJAudioPlayer.cpp"/>
