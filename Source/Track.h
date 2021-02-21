@@ -19,11 +19,14 @@ class Track
 {
 public:
     //Track(juce::File _file);
-    Track(juce::String title, juce::URL URL);
+    Track(juce::String title,
+          juce::String length,
+          juce::URL URL);
 
     ~Track();
 
     juce::String title;
+    juce::String length;
     juce::URL url;
     //juce::File file;
 

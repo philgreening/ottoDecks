@@ -25,7 +25,8 @@ class PlaylistComponent  : public juce::Component,
 {
 public:
     PlaylistComponent(DeckGUI* _deckGUI1,
-                      DeckGUI* _deckGUI2
+                      DeckGUI* _deckGUI2,
+                      DJAudioPlayer* _player
                       );
 
     ~PlaylistComponent() override;
@@ -60,8 +61,10 @@ private:
     void importTrack();
     void loadTrack(DeckGUI* deckGUI);
     void removeTrack(int id);
+    juce::String getTrackLength(juce::URL url);
     void saveTracklist();
     void loadTracklist();
+    
 
     juce::TableListBox tableComponent;
     //juce::TextButton* btn = new juce::TextButton{ "play1" };
@@ -82,7 +85,9 @@ private:
     juce::TextButton loadDeck2Button{ "Load Track to Deck 2" };
 
 
-    //DJAudioPlayer* player;
+    DJAudioPlayer* player;
+
+
     DeckGUI* deckGUI1;
     DeckGUI* deckGUI2;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlaylistComponent)

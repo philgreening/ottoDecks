@@ -15,16 +15,18 @@
 
 //==============================================================================
 PlaylistComponent::PlaylistComponent(DeckGUI* _deckGUI1,
-                                     DeckGUI* _deckGUI2
+                                     DeckGUI* _deckGUI2,
+                                     DJAudioPlayer* _player
                                      ): deckGUI1(_deckGUI1),
-                                        deckGUI2(_deckGUI2)
+                                        deckGUI2(_deckGUI2),
+                                        player(_player)
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
 
     tableComponent.getHeader().addColumn("Track title", 1, 400);
-    tableComponent.getHeader().addColumn("2", 2, 200);
-    tableComponent.getHeader().addColumn("3", 3, 50);
+    tableComponent.getHeader().addColumn("Duration", 2, 200);
+    tableComponent.getHeader().addColumn("Remove Track", 3, 50);
 
     tableComponent.setModel(this);
 
@@ -122,14 +124,14 @@ void PlaylistComponent::paintCell(juce::Graphics & g,
                 true);
         }
 
-        //if (columnId == 2)
-        //{
-        //    g.drawText(trackData[rowNumber].url,
-        //        2, 0,
-        //        width - 4, height,
-        //        juce::Justification::centredLeft,
-        //        true);
-        //}
+        if (columnId == 2)
+        {
+            g.drawText(trackData[rowNumber].length,
+                2, 0,
+                width - 4, height,
+                juce::Justification::centredLeft,
+                true);
+        }
     }
    
 }
@@ -224,10 +226,9 @@ void PlaylistComponent::importTrack()
         {
             juce::String fileName{ file.getFileNameWithoutExtension() };
             juce::URL url{ file };
-
-            Track addTrack(fileName, url);
+            juce::String length = getTrackLength(url);
+            Track addTrack(fileName, length, url);
             trackData.push_back(addTrack);
-
         };
     }
 }
@@ -246,18 +247,32 @@ void  PlaylistComponent::removeTrack(int id)
     trackData.erase(trackData.begin() + id);
 }
 
+juce::String PlaylistComponent::getTrackLength(juce::URL audioURL)
+{
+    player->loadURL(audioURL);
+
+    int minutes ( player->getLengthInSeconds() / 60 );
+    int seconds(player->getLengthInSeconds() % 60);
+
+    juce::String trackLength = std::to_string(minutes) + ":" + std::to_string(seconds);
+
+    return trackLength;
+}
+
 void  PlaylistComponent::saveTracklist()
 {
         juce::XmlElement trackList { "Track_List" };
-        std::vector<juce::String> test;
 
     for (Track& e : trackData)
     {
         juce::XmlElement* track = new juce::XmlElement{ "Track" };
 
         track->setAttribute("title", e.title);
+        track->setAttribute("length", e.length);
         track->setAttribute("URL", e.url.toString(false));
+
         trackList.addChildElement(track);
+
         DBG("PlaylistComponent::saveTracklist URL: " << e.url.toString(false));
     }
     trackList.writeTo(trackListFile);
@@ -273,9 +288,12 @@ void PlaylistComponent::loadTracklist()
         forEachXmlChildElement(*xmlData, data)
 
         {
-            juce::URL fpath = data->getStringAttribute("URL");
-            juce::String file = data->getStringAttribute("title");
-            Track addTrack{ file, fpath };
+            juce::String title = data->getStringAttribute("title");
+            juce::String length = data->getStringAttribute("length");
+            juce::URL url = data->getStringAttribute("URL");
+
+            Track addTrack{ title, length, url };
+
             trackData.push_back(addTrack);
         }
 
