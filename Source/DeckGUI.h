@@ -40,7 +40,7 @@ public:
     void resized() override;
 
     /** implement button listener */
-    void buttonClicked(juce::Button*)override;
+    void buttonClicked(juce::Button*) override;
 
     /** implement Slider:: listner*/
     void sliderValueChanged(juce::Slider* slider) override;
@@ -66,8 +66,7 @@ private:
     juce::Slider posSlider;
 
     DJAudioPlayer* player;
-   
-
+    
     WaveformDisplay waveformDisplay;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DeckGUI)

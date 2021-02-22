@@ -28,7 +28,7 @@ public:
     juce::String title;
     juce::String length;
     juce::URL url;
-    //juce::File file;
+
 
 private:
 

@@ -55,11 +55,15 @@ public:
         juce::Component *existingComponentToUpdate) override;
 
     void buttonClicked(juce::Button* button) override;
+
+    void loadTrack(DeckGUI* deckGUI);
+
     
 private:
 
     void importTrack();
-    void loadTrack(DeckGUI* deckGUI);
+    bool findTrack(juce::String fileName);
+    //void loadTrack(DeckGUI* deckGUI);
     void removeTrack(int id);
     juce::String getTrackLength(juce::URL url);
     void saveTracklist();

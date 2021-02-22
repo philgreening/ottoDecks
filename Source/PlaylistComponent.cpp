@@ -225,13 +225,34 @@ void PlaylistComponent::importTrack()
         for (const juce::File& file : fileSelect.getResults())
         {
             juce::String fileName{ file.getFileNameWithoutExtension() };
-            juce::URL url{ file };
-            juce::String length = getTrackLength(url);
-            Track addTrack(fileName, length, url);
-            trackData.push_back(addTrack);
+            if (!findTrack(fileName))
+            {
+                juce::URL url{ file };
+                juce::String length = getTrackLength(url);
+                Track addTrack(fileName, length, url);
+                trackData.push_back(addTrack);
+            }
+            else
+            {
+                juce::AlertWindow::showMessageBox(juce::AlertWindow::AlertIconType::NoIcon,
+                                                  "Import Error",
+                                                  fileName + " is already in your library",
+                                                  "", nullptr);
+            }
         };
     }
 }
+//code adapted from https://stackoverflow.com/questions/15517991/search-a-vector-of-objects-by-object-attribute
+bool PlaylistComponent::findTrack(juce::String fileName)
+{
+    std::string file = fileName.toStdString();
+    auto it = std::find_if(trackData.begin(), trackData.end(), [&file](const Track& t) {return t.title.toStdString() == file; });
+    if (it != trackData.end())
+    {
+        return true;
+    }
+}
+
 
 void PlaylistComponent::loadTrack(DeckGUI* deckGUI)
 {
@@ -251,11 +272,16 @@ juce::String PlaylistComponent::getTrackLength(juce::URL audioURL)
 {
     player->loadURL(audioURL);
 
-    int minutes ( player->getLengthInSeconds() / 60 );
+    int minutes( player->getLengthInSeconds() / 60 );
     int seconds(player->getLengthInSeconds() % 60);
 
-    juce::String trackLength = std::to_string(minutes) + ":" + std::to_string(seconds);
+    juce::String trackLength = std::to_string(minutes) + ":"  + std::to_string(seconds);
 
+    if (seconds < 10)
+    {
+        trackLength = std::to_string(minutes) + ":" + "0" + std::to_string(seconds);
+    }
+ 
     return trackLength;
 }
 

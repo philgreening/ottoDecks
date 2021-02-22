@@ -98,6 +98,7 @@ void DeckGUI::resized()
 }
 
 void DeckGUI::buttonClicked(juce::Button* button)
+
 {
     if (button == &playButton)
     {
@@ -121,7 +122,6 @@ void DeckGUI::buttonClicked(juce::Button* button)
             posSlider.setRange(0.0, trackTime);*/
             player->loadURL(juce::URL{chooser.getResult()});
             waveformDisplay.loadURL(juce::URL{ chooser.getResult() });
-
         }
     }
 }
