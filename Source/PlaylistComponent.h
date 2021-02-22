@@ -20,8 +20,8 @@
 */
 class PlaylistComponent  : public juce::Component,
                            public juce::TableListBoxModel,
-                           public juce::Button::Listener
-                            
+                           public juce::Button::Listener,
+                           public juce::TextEditor::Listener
 {
 public:
     PlaylistComponent(DeckGUI* _deckGUI1,
@@ -63,6 +63,8 @@ private:
 
     void importTrack();
     bool findTrack(juce::String fileName);
+    void searchTracks(juce::String searchTerm);
+    int findPositionInTrack(juce::String searchTerm);
     //void loadTrack(DeckGUI* deckGUI);
     void removeTrack(int id);
     juce::String getTrackLength(juce::URL url);
@@ -87,6 +89,7 @@ private:
     juce::TextButton importButton{ "Import Track" };
     juce::TextButton loadDeck1Button{ "Load Track to Deck 1" };
     juce::TextButton loadDeck2Button{ "Load Track to Deck 2" };
+    juce::TextEditor searchBar;
 
 
     DJAudioPlayer* player;

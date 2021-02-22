@@ -34,10 +34,16 @@ PlaylistComponent::PlaylistComponent(DeckGUI* _deckGUI1,
     addAndMakeVisible(importButton);
     addAndMakeVisible(loadDeck1Button);
     addAndMakeVisible(loadDeck2Button);
+    addAndMakeVisible(searchBar);
 
     importButton.addListener(this);
     loadDeck1Button.addListener(this);
     loadDeck2Button.addListener(this);
+    searchBar.addListener(this);
+
+    searchBar.setTextToShowWhenEmpty("Search for a track...", juce::Colours::tomato);
+
+    searchBar.onReturnKey = [this] {searchTracks(searchBar.getText()); };
 
 
     trackListFile = juce::File::getSpecialLocation(juce::File::SpecialLocationType::userMusicDirectory).getChildFile("TrackList.xml");
@@ -76,11 +82,12 @@ void PlaylistComponent::resized()
 {
     // This method is where you should set the bounds of any child
     // components that your component contains..
-    double pad = getHeight() - 50;
-    tableComponent.setBounds(0, 0, getWidth(), pad);
-    importButton.setBounds(0, pad, getWidth()/2, getHeight()/6);
-    loadDeck1Button.setBounds(getWidth() / 2, pad, getWidth()/4, getHeight()/6);
-    loadDeck2Button.setBounds(getWidth() - getWidth() /4, pad, getWidth() / 4, getHeight() / 6);
+    double pad = getHeight() / 6;
+    tableComponent.setBounds(0, getHeight()/10, getWidth(), pad * 5 - getHeight()/10);
+    searchBar.setBounds(0, 0, getWidth(), getHeight() / 10);
+    importButton.setBounds(0, pad * 5, getWidth()/2, pad);
+    loadDeck1Button.setBounds(getWidth() / 2, pad * 5, getWidth()/4, pad);
+    loadDeck2Button.setBounds(getWidth() - getWidth() /4, pad * 5, getWidth() / 4, pad);
 
 
 }
@@ -252,6 +259,36 @@ bool PlaylistComponent::findTrack(juce::String fileName)
         return true;
     }
 }
+
+void PlaylistComponent::searchTracks(juce::String searchTerm)
+{
+    if (searchTerm != "")
+    {
+        int row = findPositionInTrack(searchTerm);
+        tableComponent.selectRow(row);
+    }
+    else
+    {
+        tableComponent.deselectAllRows();
+    }
+  
+}
+
+int PlaylistComponent::findPositionInTrack(juce::String searchTerm)
+{
+    //std::string file = searchTerm.toStdString();
+    auto it = std::find_if(trackData.begin(), trackData.end(), [&searchTerm](const Track& t) {return t.title.containsIgnoreCase(searchTerm); });
+
+    int pos = -1;
+
+    if (it != trackData.end())
+    {
+        pos = std::distance(trackData.begin(), it);
+    }
+
+    return pos;
+}
+
 
 
 void PlaylistComponent::loadTrack(DeckGUI* deckGUI)
