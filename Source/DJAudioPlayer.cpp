@@ -22,13 +22,17 @@ DJAudioPlayer::~DJAudioPlayer()
 
 void DJAudioPlayer::prepareToPlay(int samplesPerBlockExpected, double sampleRate) 
 {
+    sampleRateStored = sampleRate;
+    DBG("DJAudioPlayer::prepareToPlay - sampleRate " << sampleRateStored);
+
     transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
-    resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);;
 }
 void DJAudioPlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) 
 {
     resampleSource.getNextAudioBlock(bufferToFill);
 }
+
 void DJAudioPlayer::releaseResources()
 {
     transportSource.releaseResources();
@@ -46,6 +50,7 @@ void DJAudioPlayer::loadURL(juce::URL audioURL)
     }
 
 }
+
 void DJAudioPlayer::setGain(double gain)
 {
     if (gain < 0 || gain >1.0)
@@ -60,7 +65,7 @@ void DJAudioPlayer::setGain(double gain)
 void DJAudioPlayer::setSpeed(double ratio)
 {
 
-    if (ratio < 0 || ratio > 100.0)
+    if (ratio < 0 || ratio > 10.0)
     {
         std::cout << "DJAudioPlayer::setSpeed. ratio should be between 1 and 100" << std::endl;
     }
@@ -78,6 +83,7 @@ void DJAudioPlayer::start()
 {
     transportSource.start();
 }
+
 void DJAudioPlayer::stop()
 {
     transportSource.stop();
@@ -103,4 +109,48 @@ void DJAudioPlayer::setPositionRelative(double pos)
 int DJAudioPlayer::getLengthInSeconds()
 {
     return transportSource.getLengthInSeconds(); 
+}
+
+void DJAudioPlayer::setBass(double bassGain)
+{
+    if (bassGain < 0 || bassGain > 100)
+    {
+        DBG("DJAudioPlayer::filters - bassGain should be between 0 and 100");
+    }
+    else{
+        bassFilter.setCoefficients(juce::IIRCoefficients::makeLowShelf(sampleRateStored, 300, 1, bassGain));
+
+        DBG("DJAudiPlayer::filters - sampleRateStored " << sampleRateStored);
+        DBG("DJAudiPlayer::filters - bassGain " << bassGain);
+    }
+
+}
+
+void DJAudioPlayer::setMid(double midGain)
+{
+    if (midGain < 0 || midGain > 100)
+    {
+        DBG("DJAudioPlayer::filters - midGain should be between 0 and 100");
+    }
+    else{
+        midFilter.setCoefficients(juce::IIRCoefficients::makePeakFilter(sampleRateStored, 4000, 1, midGain));
+
+        DBG("DJAudiPlayer::filters - sampleRateStored " << sampleRateStored);
+        DBG("DJAudiPlayer::filters - midGain " << midGain);
+    }
+
+}
+
+void DJAudioPlayer::setTreble(double trebleGain)
+{
+    if (trebleGain < 0 || trebleGain > 100)
+    {
+        DBG("DJAudioPlayer::filters - trebleGain should be between 0 and 100");
+    }
+    else{
+        trebleFilter.setCoefficients(juce::IIRCoefficients::makeHighShelf(sampleRateStored, 10000, 1, trebleGain));
+
+        DBG("DJAudiPlayer::filters - sampleRateStored " << sampleRateStored);
+        DBG("DJAudiPlayer::filters - trebleGain " << trebleGain);
+    }
 }

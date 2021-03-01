@@ -65,6 +65,10 @@ private:
     juce::Slider speedSlider;
     juce::Slider posSlider;
 
+    juce::Slider bassFreq;
+    juce::Slider midFreq;
+    juce::Slider trebleFreq;
+
     DJAudioPlayer* player;
     
     WaveformDisplay waveformDisplay;

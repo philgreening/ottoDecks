@@ -37,6 +37,10 @@
     addAndMakeVisible(speedSlider);
     addAndMakeVisible(posSlider);
 
+    addAndMakeVisible(bassFreq);
+    addAndMakeVisible(midFreq);
+    addAndMakeVisible(trebleFreq);
+
     addAndMakeVisible(waveformDisplay);
 
     playButton.addListener(this);
@@ -47,9 +51,23 @@
     speedSlider.addListener(this);
     posSlider.addListener(this);
 
+    bassFreq.addListener(this);
+    midFreq.addListener(this);
+    trebleFreq.addListener(this);
+
     volSlider.setRange(0.0, 1.0);
-    speedSlider.setRange(0.0, 100.0);
+    volSlider.setValue(0.5);
+    speedSlider.setRange(0.1, 10.0);
+    speedSlider.setValue(1.0);
     posSlider.setRange(0.0, 1.0);
+
+    bassFreq.setRange(0.1, 100.0);
+    bassFreq.setValue(1.0);
+    midFreq.setRange(0.1, 100.0);
+    midFreq.setValue(1.0);
+    trebleFreq.setRange(0.1, 100.0);
+    trebleFreq.setValue(1.0);
+    
 
     startTimer(500);
 }
@@ -86,14 +104,18 @@ void DeckGUI::resized()
     double rowH = getHeight() / 8;
     playButton.setBounds(0, 0, getWidth(), rowH);
     stopButton.setBounds(0, rowH, getWidth(), rowH);
-    volSlider.setBounds(0, rowH * 2, getWidth(), rowH);
-    speedSlider.setBounds(0, rowH * 3, getWidth(), rowH);
-    posSlider.setBounds(0, rowH * 4, getWidth(), rowH);
+    volSlider.setBounds(0, rowH * 2, getWidth()/2, rowH);
+    speedSlider.setBounds(0, rowH * 3, getWidth()/2, rowH);
+    posSlider.setBounds(0, rowH * 4, getWidth()/2, rowH);
 
-    waveformDisplay.setBounds(0, rowH * 5, getWidth(), rowH * 2);
+    bassFreq.setBounds(getWidth()/2, rowH * 2, getWidth()/2, rowH);
+    midFreq.setBounds(getWidth()/2, rowH * 3, getWidth()/2, rowH);
+    trebleFreq.setBounds(getWidth() / 2, rowH * 4, getWidth() / 2, rowH);
+
+    waveformDisplay.setBounds(0, rowH * 6, getWidth(), rowH * 2);
 
     //comboBox.setBounds(0, 0 , getWidth() /5, 50);
-    loadButton.setBounds(0, rowH * 7, getWidth(), rowH);
+    //loadButton.setBounds(0, rowH * 7, getWidth(), rowH);
 
 }
 
@@ -142,6 +164,19 @@ void DeckGUI::sliderValueChanged(juce::Slider* slider)
     {
         player->setPositionRelative(slider->getValue());
     }
+    if (slider == &bassFreq)
+    {
+        player->setBass(slider->getValue());
+
+    }
+    if (slider == &midFreq)
+    {
+        player->setMid(slider->getValue());
+    }
+    if (slider == &trebleFreq)
+    {
+        player->setTreble(slider->getValue());
+    }
 }
 
 bool DeckGUI::isInterestedInFileDrag(const juce::StringArray& files)
@@ -156,7 +191,6 @@ void DeckGUI::filesDropped(const juce::StringArray& files, int x, int y)
     {
         player->loadURL(juce::URL{ juce::File{files[0]} });
     }
-
 }
 
 void DeckGUI::timerCallback()

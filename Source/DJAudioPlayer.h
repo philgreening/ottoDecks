@@ -32,14 +32,26 @@ public:
     void start();
     void stop();
 
+    void setBass(double bassGain);
+    void setMid(double midGain);
+    void setTreble(double trebleGain);
+
     /** get the relative position of the playhead*/
     double getPositionRelative();
 
 private:
+
+    double sampleRateStored;
+
     juce::AudioFormatManager& formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
+  
     juce::AudioTransportSource transportSource;
-    juce::ResamplingAudioSource resampleSource{ &transportSource, false, 2 };
+    juce::ResamplingAudioSource resampleSource{ &trebleFilter, false, 2 };
+
+    juce::IIRFilterAudioSource bassFilter{&transportSource, false};
+    juce::IIRFilterAudioSource midFilter{ &bassFilter, false };
+    juce::IIRFilterAudioSource trebleFilter{ &midFilter, false };
 
 
 };
