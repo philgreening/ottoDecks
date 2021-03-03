@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include "DJAudioPlayer.h"
 #include "WaveformDisplay.h"
+#include "EqualizerDials.h"
 
 //==============================================================================
 /*
@@ -30,8 +31,10 @@ public:
     //        juce::AudioThumbnailCache& cacheToUse);
 
     DeckGUI(DJAudioPlayer* player,
-            juce::AudioFormatManager& formatManagerToUse,
-            juce::AudioThumbnailCache& cacheToUse);
+        juce::AudioFormatManager& formatManagerToUse,
+        juce::AudioThumbnailCache& cacheToUse);
+        //EqualizerDials equalizerDials);
+            
         
 
     ~DeckGUI() override;
@@ -65,13 +68,15 @@ private:
     juce::Slider speedSlider;
     juce::Slider posSlider;
 
-    juce::Slider bassFreq;
-    juce::Slider midFreq;
-    juce::Slider trebleFreq;
+    //juce::Slider bassFreq;
+    //juce::Slider midFreq;
+    //juce::Slider trebleFreq;
 
     DJAudioPlayer* player;
     
     WaveformDisplay waveformDisplay;
+
+    EqualizerDials equalizerDials;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DeckGUI)
 };

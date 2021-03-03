@@ -2,11 +2,11 @@
 
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ottoDecks\Source">
-      <UniqueIdentifier>{F7164FDA-C0AE-1FC2-B292-97F6CB58EBB9}</UniqueIdentifier>
+    <Filter Include="otoDecks\Source">
+      <UniqueIdentifier>{4A06677D-16C4-19BA-F287-3343036E1B83}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ottoDecks">
-      <UniqueIdentifier>{DE480BA2-DFA7-C91C-4FC3-D0F961D44B52}</UniqueIdentifier>
+    <Filter Include="otoDecks">
+      <UniqueIdentifier>{2EE9B4C2-D0F7-DAE4-83B7-2489784B6EA7}</UniqueIdentifier>
     </Filter>
     <Filter Include="JUCE Modules\juce_audio_basics\audio_play_head">
       <UniqueIdentifier>{EB58F05A-A968-CEBE-40C4-107CDD8F240F}</UniqueIdentifier>
@@ -425,28 +425,28 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EqualizerDials.cpp">
-      <Filter>ottoDecks\Source</Filter>
+      <Filter>otoDecks\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\DeckGUI.cpp">
-      <Filter>ottoDecks\Source</Filter>
+      <Filter>otoDecks\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Track.cpp">
-      <Filter>ottoDecks\Source</Filter>
+      <Filter>otoDecks\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\DJAudioPlayer.cpp">
-      <Filter>ottoDecks\Source</Filter>
+      <Filter>otoDecks\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\PlaylistComponent.cpp">
-      <Filter>ottoDecks\Source</Filter>
+      <Filter>otoDecks\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\WaveformDisplay.cpp">
-      <Filter>ottoDecks\Source</Filter>
+      <Filter>otoDecks\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Main.cpp">
-      <Filter>ottoDecks\Source</Filter>
+      <Filter>otoDecks\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\MainComponent.cpp">
-      <Filter>ottoDecks\Source</Filter>
+      <Filter>otoDecks\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
       <Filter>JUCE Modules\juce_audio_basics\buffers</Filter>
@@ -2485,25 +2485,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\EqualizerDials.h">
-      <Filter>ottoDecks\Source</Filter>
+      <Filter>otoDecks\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Track.h">
-      <Filter>ottoDecks\Source</Filter>
+      <Filter>otoDecks\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\DeckGUI.h">
-      <Filter>ottoDecks\Source</Filter>
+      <Filter>otoDecks\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\DJAudioPlayer.h">
-      <Filter>ottoDecks\Source</Filter>
+      <Filter>otoDecks\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PlaylistComponent.h">
-      <Filter>ottoDecks\Source</Filter>
+      <Filter>otoDecks\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\WaveformDisplay.h">
-      <Filter>ottoDecks\Source</Filter>
+      <Filter>otoDecks\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\MainComponent.h">
-      <Filter>ottoDecks\Source</Filter>
+      <Filter>otoDecks\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>
