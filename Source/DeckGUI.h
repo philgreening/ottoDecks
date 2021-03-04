@@ -14,6 +14,7 @@
 #include "DJAudioPlayer.h"
 #include "WaveformDisplay.h"
 #include "EqualizerDials.h"
+#include "LookAndFeel.h"
 
 //==============================================================================
 /*
@@ -77,6 +78,8 @@ private:
     WaveformDisplay waveformDisplay;
 
     EqualizerDials equalizerDials;
+
+    LookAndFeel customLook;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DeckGUI)
 };

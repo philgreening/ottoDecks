@@ -16,6 +16,7 @@
 //==============================================================================
 /*
 */
+
 class EqualizerDials : public juce::Component,
                        public juce::Slider::Listener
 {
@@ -28,7 +29,11 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    //void drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
+    //    const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider&) override;
+
 private:
+    //DialLookAndFeel customLook;
 
     juce::Slider bassDial;
     juce::Slider midDial;

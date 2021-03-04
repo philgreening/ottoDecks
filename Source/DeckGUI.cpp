@@ -72,6 +72,8 @@
     posSlider.setRange(0.0, 1.0);
     posSlider.setNumDecimalPlacesToDisplay(1);
 
+    equalizerDials.setLookAndFeel(&customLook);
+
 
     //bassFreq.setRange(0.1, 100.0);
     //bassFreq.setValue(1.0);
@@ -87,6 +89,7 @@
 DeckGUI::~DeckGUI()
 {
     stopTimer();
+    setLookAndFeel(nullptr);
 }
 
 void DeckGUI::paint (juce::Graphics& g)

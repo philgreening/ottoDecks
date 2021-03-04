@@ -12,6 +12,8 @@
       <FILE id="XVatHC" name="Track.cpp" compile="1" resource="0" file="Source/Track.cpp"/>
       <FILE id="bOBM08" name="Track.h" compile="0" resource="0" file="Source/Track.h"/>
       <FILE id="AWPArM" name="DeckGUI.h" compile="0" resource="0" file="Source/DeckGUI.h"/>
+      <FILE id="RW0amD" name="LookAndFeel.cpp" compile="1" resource="0" file="Source/LookAndFeel.cpp"/>
+      <FILE id="mk2hQi" name="LookAndFeel.h" compile="0" resource="0" file="Source/LookAndFeel.h"/>
       <FILE id="SdwNFG" name="DJAudioPlayer.cpp" compile="1" resource="0"
             file="Source/DJAudioPlayer.cpp"/>
       <FILE id="cQ8GRt" name="DJAudioPlayer.h" compile="0" resource="0" file="Source/DJAudioPlayer.h"/>
