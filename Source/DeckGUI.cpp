@@ -62,9 +62,16 @@
 
     volSlider.setRange(0.0, 1.0);
     volSlider.setValue(0.5);
+    volSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+    volSlider.setNumDecimalPlacesToDisplay(1);
+
     speedSlider.setRange(0.1, 10.0);
     speedSlider.setValue(1.0);
+    speedSlider.setNumDecimalPlacesToDisplay(1);
+
     posSlider.setRange(0.0, 1.0);
+    posSlider.setNumDecimalPlacesToDisplay(1);
+
 
     //bassFreq.setRange(0.1, 100.0);
     //bassFreq.setValue(1.0);
@@ -102,26 +109,55 @@ void DeckGUI::paint (juce::Graphics& g)
                 juce::Justification::centred, true);   // draw some placeholder text
 }
 
+//void DeckGUI::resized()
+//{
+//    // This method is where you should set the bounds of any child
+//    // components that your component contains..
+//    volSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, getWidth() / 8, 20);
+//
+//
+//    double rowH = getHeight() / 8;
+//    playButton.setBounds(0, 0, getWidth()/2, rowH);
+//    stopButton.setBounds(getWidth()/2, 0, getWidth()/2, rowH);
+//    volSlider.setBounds(getWidth()/2, rowH , getWidth()/2, rowH * 2);
+//    speedSlider.setBounds(0, rowH , getWidth()/2, rowH);
+//    posSlider.setBounds(0, rowH * 2, getWidth()/2, rowH);
+//
+//    //bassFreq.setBounds(getWidth()/2, rowH * 2, getWidth()/2, rowH);
+//    //midFreq.setBounds(getWidth()/2, rowH * 3, getWidth()/2, rowH);
+//    //trebleFreq.setBounds(getWidth() / 2, rowH * 4, getWidth() / 2, rowH);
+//    equalizerDials.setBounds(0, rowH * 3, getWidth(), rowH * 3);
+//
+//    waveformDisplay.setBounds(0, rowH * 6, getWidth(), rowH * 2);
+//
+//    //comboBox.setBounds(0, 0 , getWidth() /5, 50);
+//    //loadButton.setBounds(0, rowH * 7, getWidth(), rowH);
+//
+//}
+
 void DeckGUI::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
-    double rowH = getHeight() / 8;
-    playButton.setBounds(0, 0, getWidth(), rowH);
-    stopButton.setBounds(0, rowH, getWidth(), rowH);
-    volSlider.setBounds(0, rowH * 2, getWidth()/2, rowH);
-    speedSlider.setBounds(0, rowH * 3, getWidth()/2, rowH);
-    posSlider.setBounds(0, rowH * 4, getWidth()/2, rowH);
+    volSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, getWidth() / 8, 20);
+    posSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, getWidth() / 8, 20);
+    speedSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, getWidth() / 8, 20);
 
-    //bassFreq.setBounds(getWidth()/2, rowH * 2, getWidth()/2, rowH);
-    //midFreq.setBounds(getWidth()/2, rowH * 3, getWidth()/2, rowH);
-    //trebleFreq.setBounds(getWidth() / 2, rowH * 4, getWidth() / 2, rowH);
-    equalizerDials.setBounds(0, rowH * 5, getWidth(), rowH);
+    juce::Grid grid;
+    using Track = juce::Grid::TrackInfo;
+    using Fr = juce::Grid::Fr;
 
-    waveformDisplay.setBounds(0, rowH * 6, getWidth(), rowH * 2);
+    grid.templateRows = { Track(Fr(1)), Track(Fr(2)), Track(Fr(1)), Track(Fr(1)), Track(Fr(2)) };
+    grid.templateColumns = { Track(Fr(1)), Track(Fr(1))};
 
-    //comboBox.setBounds(0, 0 , getWidth() /5, 50);
-    //loadButton.setBounds(0, rowH * 7, getWidth(), rowH);
+    grid.items = { juce::GridItem(playButton).withArea(1,1),
+                   juce::GridItem(stopButton).withArea(1,2),
+                   juce::GridItem(speedSlider).withArea(3,1),
+                   juce::GridItem(posSlider).withArea(4,1),
+                   juce::GridItem(volSlider).withArea(3,2,5,2),
+                   juce::GridItem(equalizerDials).withArea(5,1,5,3),
+                   juce::GridItem(waveformDisplay).withArea(2,1,2,3)
+                   };
+
+    grid.performLayout(getLocalBounds());
 
 }
 

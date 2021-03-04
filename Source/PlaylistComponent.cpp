@@ -24,9 +24,9 @@ PlaylistComponent::PlaylistComponent(DeckGUI* _deckGUI1,
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
 
-    tableComponent.getHeader().addColumn("Track title", 1, 400);
-    tableComponent.getHeader().addColumn("Duration", 2, 200);
-    tableComponent.getHeader().addColumn("Remove Track", 3, 50);
+    tableComponent.getHeader().addColumn("Track title", 1, 160);
+    tableComponent.getHeader().addColumn("Duration", 2, 50);
+    tableComponent.getHeader().addColumn("Remove Track", 3, 55);
 
     tableComponent.setModel(this);
 
@@ -78,17 +78,40 @@ void PlaylistComponent::paint (juce::Graphics& g)
                 juce::Justification::centred, true);   // draw some placeholder text
 }
 
+//void PlaylistComponent::resized()
+//{
+//    // This method is where you should set the bounds of any child
+//    // components that your component contains..
+//    double pad = getHeight() / 6;
+//    tableComponent.setBounds(0, getHeight()/10, getWidth(), pad * 5 - getHeight()/10);
+//    searchBar.setBounds(0, 0, getWidth(), getHeight() / 10);
+//    importButton.setBounds(0, pad * 5, getWidth()/2, pad);
+//    loadDeck1Button.setBounds(getWidth() / 2, pad * 5, getWidth()/4, pad);
+//    loadDeck2Button.setBounds(getWidth() - getWidth() /4, pad * 5, getWidth() / 4, pad);
+//
+//
+//}
+
 void PlaylistComponent::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
-    double pad = getHeight() / 6;
-    tableComponent.setBounds(0, getHeight()/10, getWidth(), pad * 5 - getHeight()/10);
-    searchBar.setBounds(0, 0, getWidth(), getHeight() / 10);
-    importButton.setBounds(0, pad * 5, getWidth()/2, pad);
-    loadDeck1Button.setBounds(getWidth() / 2, pad * 5, getWidth()/4, pad);
-    loadDeck2Button.setBounds(getWidth() - getWidth() /4, pad * 5, getWidth() / 4, pad);
+    
+    juce::Grid grid;
 
+    using Track = juce::Grid::TrackInfo;
+    using Fr = juce::Grid::Fr;
+
+    grid.templateRows = { Track(Fr(2)), Track(Fr(1)), Track(Fr(10)),Track(Fr(2)) };
+    grid.templateColumns = { Track(Fr(1)),Track(Fr(1)) };
+
+    grid.items = { juce::GridItem(importButton).withArea(1,1,1,3),
+                    juce::GridItem(searchBar).withArea(2,1,2,3),
+                    juce::GridItem(tableComponent).withArea(3,1,4,3),
+                    juce::GridItem(loadDeck1Button),
+                    juce::GridItem(loadDeck2Button),
+    };
+
+    grid.performLayout(getLocalBounds());
+    
 
 }
 
