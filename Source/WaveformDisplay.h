@@ -16,7 +16,8 @@
 /*
 */
 class WaveformDisplay : public juce::Component,
-                        public juce::ChangeListener
+                        public juce::ChangeListener,
+                        public juce::LookAndFeel_V4
 {
 public:
     //WaveformDisplay(int _id,
@@ -39,11 +40,17 @@ public:
     /** set the relative position of the playhead */
     void setPositionRelative(double pos);
 
+    void drawLinearSlider(juce::Graphics&, int x, int y, int width, int height, float sliderPos, float minSliderPos, float maxSliderPos, const juce::Slider::SliderStyle, juce::Slider&) override;
+
+
+
 private:
-    int id;
+    //int id;
     juce::AudioThumbnail audioThumb;
-    bool fileLoaded;
+
     double position;
+
+    bool fileLoaded;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaveformDisplay)
 };

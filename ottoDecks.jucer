@@ -4,6 +4,10 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="Ixf8Cd" name="ottoDecks">
     <GROUP id="{1E62B325-5B9C-79B8-1253-DD5EE9883AF3}" name="Source">
+      <FILE id="oMxIlr" name="AudioSpeedLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/AudioSpeedLookAndFeel.cpp"/>
+      <FILE id="wCpHYQ" name="AudioSpeedLookAndFeel.h" compile="0" resource="0"
+            file="Source/AudioSpeedLookAndFeel.h"/>
       <FILE id="mqRX70" name="EqualizerDials.cpp" compile="1" resource="0"
             file="Source/EqualizerDials.cpp"/>
       <FILE id="Jfqadp" name="EqualizerDials.h" compile="0" resource="0"

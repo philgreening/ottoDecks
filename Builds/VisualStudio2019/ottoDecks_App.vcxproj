@@ -139,6 +139,7 @@
     <Lib/>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\AudioSpeedLookAndFeel.cpp"/>
     <ClCompile Include="..\..\Source\EqualizerDials.cpp"/>
     <ClCompile Include="..\..\Source\DeckGUI.cpp"/>
     <ClCompile Include="..\..\Source\Track.cpp"/>
@@ -2048,6 +2049,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\AudioSpeedLookAndFeel.h"/>
     <ClInclude Include="..\..\Source\EqualizerDials.h"/>
     <ClInclude Include="..\..\Source\Track.h"/>
     <ClInclude Include="..\..\Source\DeckGUI.h"/>

@@ -15,6 +15,7 @@
 #include "WaveformDisplay.h"
 #include "EqualizerDials.h"
 #include "LookAndFeel.h"
+#include "AudioSpeedLookAndFeel.h"
 
 //==============================================================================
 /*
@@ -56,6 +57,9 @@ public:
 
     void loadFile(juce::URL audioURL);
 
+    //juce::Slider volSlider;
+
+
 
 private:
 
@@ -80,6 +84,10 @@ private:
     EqualizerDials equalizerDials;
 
     LookAndFeel customLook;
+
+    AudioSpeedLookAndFeel speedLook;
+
+    //WaveformDisplay look;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DeckGUI)
 };

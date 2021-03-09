@@ -36,6 +36,8 @@
     addAndMakeVisible(stopButton);
     //addAndMakeVisible(loadButton);
 
+    addAndMakeVisible(waveformDisplay);
+
     addAndMakeVisible(volSlider);
     addAndMakeVisible(speedSlider);
     addAndMakeVisible(posSlider);
@@ -44,7 +46,6 @@
     //addAndMakeVisible(midFreq);
     //addAndMakeVisible(trebleFreq);
 
-    addAndMakeVisible(waveformDisplay);
 
     addAndMakeVisible(equalizerDials);
 
@@ -65,14 +66,20 @@
     volSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
     volSlider.setNumDecimalPlacesToDisplay(1);
 
-    speedSlider.setRange(0.1, 10.0);
+    speedSlider.setRange(0.1, 2.0);
     speedSlider.setValue(1.0);
+    speedSlider.setSkewFactorFromMidPoint(1.0);
+    speedSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
     speedSlider.setNumDecimalPlacesToDisplay(1);
 
     posSlider.setRange(0.0, 1.0);
     posSlider.setNumDecimalPlacesToDisplay(1);
+    posSlider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
 
     equalizerDials.setLookAndFeel(&customLook);
+    speedSlider.setLookAndFeel(&speedLook);
+    posSlider.setLookAndFeel(&waveformDisplay);
+    volSlider.setLookAndFeel(&customLook);
 
 
     //bassFreq.setRange(0.1, 100.0);
@@ -83,7 +90,7 @@
     //trebleFreq.setValue(1.0);
     //
 
-    startTimer(500);
+    startTimer(200);
 }
 
 DeckGUI::~DeckGUI()
@@ -110,6 +117,8 @@ void DeckGUI::paint (juce::Graphics& g)
     g.setFont (14.0f);
     g.drawText ("DeckGUI", getLocalBounds(),
                 juce::Justification::centred, true);   // draw some placeholder text
+
+ 
 }
 
 //void DeckGUI::resized()
@@ -140,24 +149,26 @@ void DeckGUI::paint (juce::Graphics& g)
 
 void DeckGUI::resized()
 {
-    volSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, getWidth() / 8, 20);
-    posSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, getWidth() / 8, 20);
-    speedSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, getWidth() / 8, 20);
+    volSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, getWidth() / 8, 20);
+    posSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, getWidth() / 8, 20);
+    speedSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, getWidth() /8, 20);
 
     juce::Grid grid;
     using Track = juce::Grid::TrackInfo;
     using Fr = juce::Grid::Fr;
 
-    grid.templateRows = { Track(Fr(1)), Track(Fr(2)), Track(Fr(1)), Track(Fr(1)), Track(Fr(2)) };
-    grid.templateColumns = { Track(Fr(1)), Track(Fr(1))};
+    grid.templateRows = { Track(Fr(1)), Track(Fr(1)), Track(Fr(1)), Track(Fr(1)), Track(Fr(2)) };
+    grid.templateColumns = { Track(Fr(1)), Track(Fr(1)), Track(Fr(1)),Track(Fr(1)) };
 
-    grid.items = { juce::GridItem(playButton).withArea(1,1),
-                   juce::GridItem(stopButton).withArea(1,2),
-                   juce::GridItem(speedSlider).withArea(3,1),
-                   juce::GridItem(posSlider).withArea(4,1),
-                   juce::GridItem(volSlider).withArea(3,2,5,2),
-                   juce::GridItem(equalizerDials).withArea(5,1,5,3),
-                   juce::GridItem(waveformDisplay).withArea(2,1,2,3)
+    grid.items = { juce::GridItem(playButton).withArea(1,1,1,3),
+                   juce::GridItem(stopButton).withArea(1,3,1,5),
+                   juce::GridItem(speedSlider).withArea(3,1,5,4),
+                   //juce::GridItem(posSlider).withArea(4,1),
+                   juce::GridItem(volSlider).withArea(3,4,5,5),
+                   juce::GridItem(equalizerDials).withArea(5,1,5,5),
+                   juce::GridItem(waveformDisplay).withArea(2,1,2,5),
+                   juce::GridItem(posSlider).withArea(2,1,2,5)
+
                    };
 
     grid.performLayout(getLocalBounds());
@@ -244,6 +255,11 @@ void DeckGUI::timerCallback()
 
     waveformDisplay.setPositionRelative(
             player->getPositionRelative());
+
+    if (player->getPositionRelative() >= 0)
+    {
+        posSlider.setValue(player->getPositionRelative());
+    }
 }
 void DeckGUI::loadFile(juce::URL audioURL)
 {

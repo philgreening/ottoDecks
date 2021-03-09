@@ -47,12 +47,58 @@ void LookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width, i
     //g.drawFittedText();
 
     juce::Path p;
+    //juce::Path t;
     auto pointerLength = radius * 0.33f;
     auto pointerThickness = 3.0f;
     p.addRectangle(-pointerThickness * 0.5f, -radius, pointerThickness, pointerLength);
+    //t.addRectangle(-pointerThickness * 0.5f, -radiusSmall, pointerThickness, pointerLength -5);
+    //t.addRectangle(-pointerThickness * 0.5f + 10, -radiusSmall , pointerThickness, pointerLength - 5);
+
     p.applyTransform(juce::AffineTransform::rotation(angle).translated(centreX, centreY));
+    //t.applyTransform(juce::AffineTransform::rotation(0).translated(centreX, centreY));
 
     // pointer
     g.setColour(juce::Colours::black);
     g.fillPath(p);
+    //g.fillPath(t);
+}
+
+void LookAndFeel::drawLinearSlider(juce::Graphics& g, int x, int y, int width, int height,
+    float sliderPos, float minSliderPos, float maxSliderPos,
+    const juce::Slider::SliderStyle, juce::Slider&)
+
+{
+ /*   int y = (int)deckGUI->volSlider.getValue();
+
+    g.fillRect(x,y, deckGUI->getWidth(),deckGUI->getHeight());*/
+
+    //g.fillRect();
+
+
+    g.setColour(juce::Colours::antiquewhite);
+    //juce::Line<int> tick(width/2, 0, width/4, 0);
+
+    auto numTicks = 11;
+    juce::Rectangle<int> tick(width / 2.7, y, width /4, height /70);
+    juce::Rectangle<int> tickLabel(width /6, y, width/1.6 , height / 70);
+
+    for (auto  i = numTicks; i >= 0; i--)
+    {
+        auto numbers = juce::String(i);
+        g.setFont(10.0f);
+        g.drawText(numbers, tickLabel, juce::Justification::left);
+        g.drawText(numbers, tickLabel, juce::Justification::right);
+        g.fillRect(tick);
+        tick.translate(0, height/11);
+        tickLabel.translate(0, height / 11);
+    }
+
+    g.setColour(juce::Colours::slategrey);
+    g.fillRect(width / 2.3, y, width / 8, height);
+    g.setColour(juce::Colours::red);
+    g.fillRect(width / 2.3, (int) sliderPos, width / 8,  (int)minSliderPos - (int)sliderPos);
+
+    g.setColour(juce::Colours::antiquewhite);
+    g.fillRect(width / 3, (int)sliderPos, width / 3, height / 20);
+
 }

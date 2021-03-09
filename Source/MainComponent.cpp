@@ -25,6 +25,11 @@ MainComponent::MainComponent()
 
     addAndMakeVisible(playlistComponent);
 
+
+
+    xfade.setRange(0.0, 1.0);
+    xfade.setValue(0.5);
+
     formatManager.registerBasicFormats();
 
 }
@@ -116,4 +121,5 @@ void MainComponent::resized()
     //playlistComponent.setBounds(0, getHeight() / 2, getWidth(), getHeight() / 2);
 
 }
+
 

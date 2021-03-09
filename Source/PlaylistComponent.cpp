@@ -25,8 +25,8 @@ PlaylistComponent::PlaylistComponent(DeckGUI* _deckGUI1,
     // initialise any special settings that your component needs.
 
     tableComponent.getHeader().addColumn("Track title", 1, 160);
-    tableComponent.getHeader().addColumn("Duration", 2, 50);
-    tableComponent.getHeader().addColumn("Remove Track", 3, 55);
+    tableComponent.getHeader().addColumn("Length", 2, 50);
+    tableComponent.getHeader().addColumn("Remove", 3, 55);
 
     tableComponent.setModel(this);
 
@@ -128,11 +128,12 @@ void PlaylistComponent::paintRowBackground(juce::Graphics & g,
 {
     if (rowIsSelceted)
     {
-        g.fillAll(juce::Colours::orange);
+        g.fillAll(juce::Colours::darkred);
+        g.setColour(juce::Colours::antiquewhite);
     }
     else
     {
-        g.fillAll(juce::Colours::darkgrey);
+        g.fillAll(juce::Colours::antiquewhite);
     }
 }
 
