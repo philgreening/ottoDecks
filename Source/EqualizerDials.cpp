@@ -28,17 +28,19 @@ EqualizerDials::EqualizerDials(DJAudioPlayer* _player) : player(_player)
     bassDial.setRange(0.1, 100.0);
     bassDial.setValue(1.0);
     bassDial.setSliderStyle(juce::Slider::SliderStyle::Rotary);
-    bassDial.setNumDecimalPlacesToDisplay(2);
+    bassDial.setSkewFactorFromMidPoint(1);
+
 
     midDial.setRange(0.1, 100.0);
     midDial.setValue(1.0);
     midDial.setSliderStyle(juce::Slider::SliderStyle::Rotary);
-    midDial.setNumDecimalPlacesToDisplay(2);
+    midDial.setSkewFactorFromMidPoint(1);
 
     trebleDial.setRange(0.1, 100.0);
     trebleDial.setValue(1.0);
     trebleDial.setSliderStyle(juce::Slider::SliderStyle::Rotary);
-    trebleDial.setNumDecimalPlacesToDisplay(2);
+    trebleDial.setSkewFactorFromMidPoint(1);
+
 }
 
 EqualizerDials::~EqualizerDials()
@@ -56,48 +58,23 @@ void EqualizerDials::paint (juce::Graphics& g)
        drawing code..
     */
 
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
+    g.fillAll(juce::Colours::darkred);
+    g.setColour (juce::Colours::antiquewhite);
+    g.setFont (20.0f);
 
-    g.setColour (juce::Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
-    g.setColour (juce::Colours::white);
-    g.setFont (14.0f);
-    //g.drawText ("EqualizerDials", getLocalBounds(),
-                //juce::Justification::centred, true);   // draw some placeholder text
-    //bassDial.setLookAndFeel(&customLook);
-    g.drawText("Bass", 0, 0, getWidth() / 3, 40, juce::Justification::centred, true);
-    g.drawText("Mid", getWidth() /3, 0, getWidth() /3, 40 , juce::Justification::centred, true);
-    g.drawText("Treble", getWidth() / 3 * 2, 0, getWidth() / 3, 40, juce::Justification::centred, true);
+    g.drawText("Bass", 0, getHeight()/10, getWidth() / 3, 40, juce::Justification::centred, true);
+    g.drawText("Mid", getWidth() /3, getHeight()/10, getWidth() /3, 40 , juce::Justification::centred, true);
+    g.drawText("Treble", getWidth() / 3 * 2, getHeight()/10, getWidth() / 3, 40, juce::Justification::centred, true);
 
 }
-
-//void EqualizerDials::resized()
-//{
-//    // This method is where you should set the bounds of any child
-//    // components that your component contains..
-//    bassDial.setTextBoxStyle(juce::Slider::TextBoxBelow, true, getWidth()/8, 20 );
-//    midDial.setTextBoxStyle(juce::Slider::TextBoxBelow, true, getWidth() / 8, 20);
-//    trebleDial.setTextBoxStyle(juce::Slider::TextBoxBelow, true, getWidth() / 8, 20);
-//
-//
-//    double rowH = getHeight() / 8;
-//
-//    bassDial.setBounds(0 , 0 , getWidth() /3 , getHeight());
-//    midDial.setBounds(getWidth() / 3, 0 , getWidth() / 3, getHeight());
-//    trebleDial.setBounds(getWidth() / 3  *2, 0, getWidth() / 3, getHeight());
-//}
 
 void EqualizerDials::resized()
 {
     // This method is where you should set the bounds of any child
     // components that your component contains..
-    bassDial.setTextBoxStyle(juce::Slider::TextBoxBelow, true, getWidth() / 6, 20);
-    bassDial.setSkewFactorFromMidPoint(1);
-    midDial.setTextBoxStyle(juce::Slider::TextBoxBelow, true, getWidth() / 6, 20);
-    midDial.setSkewFactorFromMidPoint(1);
-    trebleDial.setTextBoxStyle(juce::Slider::TextBoxBelow, true, getWidth() / 6, 20);
-    trebleDial.setSkewFactorFromMidPoint(1);
+    bassDial.setTextBoxStyle(juce::Slider::NoTextBox, true, getWidth() / 6, 20);
+    midDial.setTextBoxStyle(juce::Slider::NoTextBox, true, getWidth() / 6, 20);
+    trebleDial.setTextBoxStyle(juce::Slider::NoTextBox, true, getWidth() / 6, 20);
     
     juce::Grid grid;
 

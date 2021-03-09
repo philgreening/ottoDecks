@@ -42,10 +42,8 @@ public:
 
     void drawLinearSlider(juce::Graphics&, int x, int y, int width, int height, float sliderPos, float minSliderPos, float maxSliderPos, const juce::Slider::SliderStyle, juce::Slider&) override;
 
-
-
 private:
-    //int id;
+
     juce::AudioThumbnail audioThumb;
 
     double position;

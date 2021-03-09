@@ -46,7 +46,6 @@ private:
     DeckGUI deckGUI2{ &player2, formatManager, thumbCache };
 
     juce::MixerAudioSource mixerSource;
-    juce::Slider xfade;
 
     PlaylistComponent playlistComponent{ &deckGUI1, &deckGUI2, &player};
 

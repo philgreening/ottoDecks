@@ -12,14 +12,6 @@
 #include "DeckGUI.h"
 
 //==============================================================================
-//DeckGUI::DeckGUI(int _id,
-//                DJAudioPlayer* _player,
-//                juce::AudioFormatManager& formatManagerToUse,
-//                juce::AudioThumbnailCache& cacheToUse
-//                ) : id(_id),
-//                   player(_player),
-//                   waveformDisplay(id, formatManagerToUse, cacheToUse)
-
 
     DeckGUI::DeckGUI(DJAudioPlayer* _player,
                     juce::AudioFormatManager& formatManagerToUse,
@@ -27,12 +19,15 @@
                     //EqualizerDials _equalizerDials
                     ) : player(_player),
                         waveformDisplay(formatManagerToUse, cacheToUse),
-                        equalizerDials(_player)
-                    
+                        equalizerDials(_player)                    
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
     addAndMakeVisible(playButton);
+
+    playButton.setLookAndFeel(&customLook);
+    stopButton.setLookAndFeel(&customLook);
+
     addAndMakeVisible(stopButton);
     //addAndMakeVisible(loadButton);
 
@@ -42,24 +37,16 @@
     addAndMakeVisible(speedSlider);
     addAndMakeVisible(posSlider);
 
-    //addAndMakeVisible(bassFreq);
-    //addAndMakeVisible(midFreq);
-    //addAndMakeVisible(trebleFreq);
-
-
     addAndMakeVisible(equalizerDials);
 
     playButton.addListener(this);
+    
     stopButton.addListener(this);
     //loadButton.addListener(this);
 
     volSlider.addListener(this);
     speedSlider.addListener(this);
     posSlider.addListener(this);
-
-    //bassFreq.addListener(this);
-    //midFreq.addListener(this);
-    //trebleFreq.addListener(this);
 
     volSlider.setRange(0.0, 1.0);
     volSlider.setValue(0.5);
@@ -81,15 +68,6 @@
     posSlider.setLookAndFeel(&waveformDisplay);
     volSlider.setLookAndFeel(&customLook);
 
-
-    //bassFreq.setRange(0.1, 100.0);
-    //bassFreq.setValue(1.0);
-    //midFreq.setRange(0.1, 100.0);
-    //midFreq.setValue(1.0);
-    //trebleFreq.setRange(0.1, 100.0);
-    //trebleFreq.setValue(1.0);
-    //
-
     startTimer(200);
 }
 
@@ -101,51 +79,10 @@ DeckGUI::~DeckGUI()
 
 void DeckGUI::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
-
-    g.setColour (juce::Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
-    g.setColour (juce::Colours::white);
-    g.setFont (14.0f);
-    g.drawText ("DeckGUI", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
-
- 
+    g.setColour(juce::Colours::white);
+    g.drawText(trackName, getWidth()/2, getHeight()/2, 50, 50, juce::Justification::centredLeft);
+    DBG("DeckGUI::paint track name:" << trackName);
 }
-
-//void DeckGUI::resized()
-//{
-//    // This method is where you should set the bounds of any child
-//    // components that your component contains..
-//    volSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, getWidth() / 8, 20);
-//
-//
-//    double rowH = getHeight() / 8;
-//    playButton.setBounds(0, 0, getWidth()/2, rowH);
-//    stopButton.setBounds(getWidth()/2, 0, getWidth()/2, rowH);
-//    volSlider.setBounds(getWidth()/2, rowH , getWidth()/2, rowH * 2);
-//    speedSlider.setBounds(0, rowH , getWidth()/2, rowH);
-//    posSlider.setBounds(0, rowH * 2, getWidth()/2, rowH);
-//
-//    //bassFreq.setBounds(getWidth()/2, rowH * 2, getWidth()/2, rowH);
-//    //midFreq.setBounds(getWidth()/2, rowH * 3, getWidth()/2, rowH);
-//    //trebleFreq.setBounds(getWidth() / 2, rowH * 4, getWidth() / 2, rowH);
-//    equalizerDials.setBounds(0, rowH * 3, getWidth(), rowH * 3);
-//
-//    waveformDisplay.setBounds(0, rowH * 6, getWidth(), rowH * 2);
-//
-//    //comboBox.setBounds(0, 0 , getWidth() /5, 50);
-//    //loadButton.setBounds(0, rowH * 7, getWidth(), rowH);
-//
-//}
 
 void DeckGUI::resized()
 {
@@ -162,14 +99,13 @@ void DeckGUI::resized()
 
     grid.items = { juce::GridItem(playButton).withArea(1,1,1,3),
                    juce::GridItem(stopButton).withArea(1,3,1,5),
+                   juce::GridItem(waveformDisplay).withArea(2,1,2,5),
+                   juce::GridItem(posSlider).withArea(2,1,2,5),
                    juce::GridItem(speedSlider).withArea(3,1,5,4),
-                   //juce::GridItem(posSlider).withArea(4,1),
                    juce::GridItem(volSlider).withArea(3,4,5,5),
                    juce::GridItem(equalizerDials).withArea(5,1,5,5),
-                   juce::GridItem(waveformDisplay).withArea(2,1,2,5),
-                   juce::GridItem(posSlider).withArea(2,1,2,5)
-
                    };
+    grid.setGap(juce::Grid::Px(5));
 
     grid.performLayout(getLocalBounds());
 
@@ -190,18 +126,7 @@ void DeckGUI::buttonClicked(juce::Button* button)
         //playing = false;
         player->stop();
     }
-    //if (button == &loadButton)
-    //{
-    //    juce::FileChooser chooser{"Select a file...."};
-    //    if (chooser.browseForFileToOpen())
-    //    {
-    //        /*loadURL(juce::URL{ chooser.getURLResult()});
-    //        trackTime = transportSource.getLengthInSeconds();
-    //        posSlider.setRange(0.0, trackTime);*/
-    //        player->loadURL(juce::URL{chooser.getResult()});
-    //        waveformDisplay.loadURL(juce::URL{ chooser.getResult() });
-    //    }
-    //}
+
 }
 
 void DeckGUI::sliderValueChanged(juce::Slider* slider)
@@ -220,19 +145,6 @@ void DeckGUI::sliderValueChanged(juce::Slider* slider)
     {
         player->setPositionRelative(slider->getValue());
     }
-    //if (slider == &bassFreq)
-    //{
-    //    player->setBass(slider->getValue());
-
-    //}
-    //if (slider == &midFreq)
-    //{
-    //    player->setMid(slider->getValue());
-    //}
-    //if (slider == &trebleFreq)
-    //{
-    //    player->setTreble(slider->getValue());
-    //}
 }
 
 bool DeckGUI::isInterestedInFileDrag(const juce::StringArray& files)
@@ -252,13 +164,18 @@ void DeckGUI::filesDropped(const juce::StringArray& files, int x, int y)
 void DeckGUI::timerCallback()
 {
    // std::cout << "DeckGUI::timerCallBack" << std::endl;
+    auto posRelative = player->getPositionRelative();
+    //DBG("DeckGUI::timerCallback position: " << posRelative);
 
-    waveformDisplay.setPositionRelative(
-            player->getPositionRelative());
+    waveformDisplay.setPositionRelative(posRelative);
 
-    if (player->getPositionRelative() >= 0)
+    if (posRelative >= 0)
     {
-        posSlider.setValue(player->getPositionRelative());
+        posSlider.setValue(posRelative);
+    }
+    if (posRelative >= 1)
+    {
+        player->setPosition(0);
     }
 }
 void DeckGUI::loadFile(juce::URL audioURL)

@@ -58,6 +58,8 @@ public:
 
     void loadTrack(DeckGUI* deckGUI);
 
+    juce::String trackName;
+
     
 private:
 
@@ -84,6 +86,7 @@ private:
     juce::File trackListFile;
 
 
+
     std::unique_ptr<juce::XmlElement> xmlData;
 
     juce::TextButton importButton{ "Import Track" };
@@ -93,6 +96,8 @@ private:
 
 
     DJAudioPlayer* player;
+
+    LookAndFeel customLook;
 
 
     DeckGUI* deckGUI1;

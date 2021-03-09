@@ -25,11 +25,6 @@ MainComponent::MainComponent()
 
     addAndMakeVisible(playlistComponent);
 
-
-
-    xfade.setRange(0.0, 1.0);
-    xfade.setValue(0.5);
-
     formatManager.registerBasicFormats();
 
 }
@@ -76,7 +71,6 @@ void MainComponent::releaseResources()
     player1.releaseResources();
     player2.releaseResources();
     mixerSource.releaseResources();
-
 }
 
 //==============================================================================
@@ -84,23 +78,8 @@ void MainComponent::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-    // You can add your drawing code here!
-    g.setFont(20.0f);
-    g.setColour(juce::Colours::limegreen);
-    //g.drawText("Hello from Birmingham", getLocalBounds(),
-    //juce::Justification::centredBottom, true);
-
 }
 
-//void MainComponent::resized()
-//{
-//    deckGUI1.setBounds(0, 0, getWidth() / 2, getHeight() / 2);
-//    deckGUI2.setBounds(getWidth() / 2, 0, getWidth() / 2, getHeight() / 2);
-//
-//    playlistComponent.setBounds(0, getHeight() / 2, getWidth(), getHeight() / 2);
-
-//}
 void MainComponent::resized() 
 {
     juce::Grid grid;
@@ -113,13 +92,9 @@ void MainComponent::resized()
 
     grid.items = { juce::GridItem(playlistComponent), juce::GridItem(deckGUI1), juce::GridItem(deckGUI2) };
 
+    grid.setGap(juce::Grid::Px(5));
+
     grid.performLayout(getLocalBounds());
-
-    //deckGUI1.setBounds(0, 0, getWidth() / 2, getHeight() / 2);
-    //deckGUI2.setBounds(getWidth() / 2, 0, getWidth() / 2, getHeight() / 2);
-
-    //playlistComponent.setBounds(0, getHeight() / 2, getWidth(), getHeight() / 2);
-
 }
 
 

@@ -64,7 +64,7 @@ void AudioSpeedLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, in
     auto rw3 = radius3 * 2.0f;
 
     auto angle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
-
+    g.fillAll(juce::Colours::antiquewhite);
     // fill
     g.setColour(juce::Colours::black);
     g.fillEllipse(rx, ry, rw, rw);

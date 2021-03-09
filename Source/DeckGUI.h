@@ -59,6 +59,8 @@ public:
 
     //juce::Slider volSlider;
 
+    juce::String trackName;
+
 
 
 private:
