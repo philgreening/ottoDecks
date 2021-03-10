@@ -20,6 +20,7 @@
 //==============================================================================
 /*
 */
+
 class DeckGUI : public juce::Component,
                 public juce::Button::Listener,
                 public juce::Slider::Listener,
@@ -27,10 +28,6 @@ class DeckGUI : public juce::Component,
                 public juce::Timer        
 {
 public:
-    //DeckGUI(int _id,
-    //        DJAudioPlayer* player,
-    //        juce::AudioFormatManager& formatManagerToUse,
-    //        juce::AudioThumbnailCache& cacheToUse);
 
     DeckGUI(DJAudioPlayer* player,
         juce::AudioFormatManager& formatManagerToUse,
@@ -64,8 +61,7 @@ public:
 
 
 private:
-
-    //int id;
+ 
 
     juce::TextButton playButton{ "PLAY" };
     juce::TextButton stopButton{ "STOP" };
@@ -75,9 +71,9 @@ private:
     juce::Slider speedSlider;
     juce::Slider posSlider;
 
-    //juce::Slider bassFreq;
-    //juce::Slider midFreq;
-    //juce::Slider trebleFreq;
+    juce::Rectangle<int> trackInfo;
+
+    juce::String trackCurrenPos;
 
     DJAudioPlayer* player;
     
@@ -89,7 +85,7 @@ private:
 
     AudioSpeedLookAndFeel speedLook;
 
-    //WaveformDisplay look;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DeckGUI)
 };
+

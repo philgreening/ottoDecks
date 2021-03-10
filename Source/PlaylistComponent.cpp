@@ -27,6 +27,7 @@ PlaylistComponent::PlaylistComponent(DeckGUI* _deckGUI1,
     tableComponent.getHeader().addColumn("Track title", 1, 158);
     tableComponent.getHeader().addColumn("Length", 2, 50);
     tableComponent.getHeader().addColumn("Remove", 3, 55);
+    
 
     tableComponent.setModel(this);
 
@@ -48,6 +49,7 @@ PlaylistComponent::PlaylistComponent(DeckGUI* _deckGUI1,
     tableComponent.setLookAndFeel(&customLook);
 
     searchBar.setTextToShowWhenEmpty("Search for a track...", juce::Colours::darkred);
+    searchBar.setFont(20.0f);
 
     searchBar.onReturnKey = [this] {searchTracks(searchBar.getText()); };
 

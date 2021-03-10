@@ -60,11 +60,16 @@ void EqualizerDials::paint (juce::Graphics& g)
 
     g.fillAll(juce::Colours::darkred);
     g.setColour (juce::Colours::antiquewhite);
-    g.setFont (20.0f);
+    g.setFont (getHeight() / 9);
 
-    g.drawText("Bass", 0, getHeight()/10, getWidth() / 3, 40, juce::Justification::centred, true);
-    g.drawText("Mid", getWidth() /3, getHeight()/10, getWidth() /3, 40 , juce::Justification::centred, true);
-    g.drawText("Treble", getWidth() / 3 * 2, getHeight()/10, getWidth() / 3, 40, juce::Justification::centred, true);
+    int x = getWidth() / 3;
+    int y = getHeight() / 20;
+    int w = getWidth() / 3;
+    int h = getHeight() / 5;
+
+    g.drawText("Bass", 0, y, w, h, juce::Justification::centredTop, true);
+    g.drawText("Mid", x, y, w, h , juce::Justification::centredTop, true);
+    g.drawText("Treble", x * 2, y, w, h, juce::Justification::centredTop, true);
 
 }
 
@@ -72,16 +77,16 @@ void EqualizerDials::resized()
 {
     // This method is where you should set the bounds of any child
     // components that your component contains..
-    bassDial.setTextBoxStyle(juce::Slider::NoTextBox, true, getWidth() / 6, 20);
-    midDial.setTextBoxStyle(juce::Slider::NoTextBox, true, getWidth() / 6, 20);
-    trebleDial.setTextBoxStyle(juce::Slider::NoTextBox, true, getWidth() / 6, 20);
+    bassDial.setTextBoxStyle(juce::Slider::NoTextBox, true, 0,0);
+    midDial.setTextBoxStyle(juce::Slider::NoTextBox, true, 0,0);
+    trebleDial.setTextBoxStyle(juce::Slider::NoTextBox, true, 0,0);
     
     juce::Grid grid;
 
     using Track = juce::Grid::TrackInfo;
     using Fr = juce::Grid::Fr;
 
-    grid.templateRows = { Track(Fr(1)) };
+    grid.templateRows = { Track(Fr(1))};
     grid.templateColumns = { Track(Fr(1)), Track(Fr(1)), Track(Fr(1)) };
 
     grid.items = { juce::GridItem(bassDial), juce::GridItem(midDial), juce::GridItem(trebleDial) };

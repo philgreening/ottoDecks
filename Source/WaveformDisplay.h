@@ -20,9 +20,6 @@ class WaveformDisplay : public juce::Component,
                         public juce::LookAndFeel_V4
 {
 public:
-    //WaveformDisplay(int _id,
-    //                juce::AudioFormatManager& formatManagerToUse,
-    //                juce::AudioThumbnailCache& cacheToUse);
 
     WaveformDisplay(
         juce::AudioFormatManager& formatManagerToUse,

@@ -91,6 +91,8 @@ void DJAudioPlayer::stop()
 
 double DJAudioPlayer::getPositionRelative()
 {
+    //DBG("DJAudioPlayer::getPositionRelative current pos" << transportSource.getCurrentPosition());
+
     return transportSource.getCurrentPosition() / transportSource.getLengthInSeconds();
 }
 
@@ -153,4 +155,21 @@ void DJAudioPlayer::setTreble(double trebleGain)
         DBG("DJAudiPlayer::filters - sampleRateStored " << sampleRateStored);
         DBG("DJAudiPlayer::filters - trebleGain " << trebleGain);
     }
+}
+
+juce::String DJAudioPlayer::getTrackCurrentPos()
+{
+
+    int minutes (transportSource.getCurrentPosition() /60);
+    int seconds((int)transportSource.getCurrentPosition() % 60);
+
+    juce::String trackCurrentPos = std::to_string(minutes) + ":" + std::to_string(seconds);
+
+    if (seconds < 10)
+    {
+        trackCurrentPos = std::to_string(minutes) + ":" + "0" + std::to_string(seconds);
+    }
+    DBG("DJAudioPlayer::getTrackCurrentPos" << trackCurrentPos);
+    
+    return trackCurrentPos;
 }

@@ -39,6 +39,8 @@ public:
     /** get the relative position of the playhead*/
     double getPositionRelative();
 
+    juce::String getTrackCurrentPos();
+
 private:
 
     double sampleRateStored;

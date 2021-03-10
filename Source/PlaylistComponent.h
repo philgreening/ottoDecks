@@ -75,17 +75,10 @@ private:
     
 
     juce::TableListBox tableComponent;
-    //juce::TextButton* btn = new juce::TextButton{ "play1" };
-    //juce::TextButton* btn2 = new juce::TextButton{ "play2" };
-   /* juce::TextButton btn { "Play1" };
-    juce::TextButton btn2 { "Play2" };*/
-
    
     std::vector<Track> trackData;
 
     juce::File trackListFile;
-
-
 
     std::unique_ptr<juce::XmlElement> xmlData;
 
@@ -94,11 +87,9 @@ private:
     juce::TextButton loadDeck2Button{ "Load Track to Deck 2" };
     juce::TextEditor searchBar;
 
-
     DJAudioPlayer* player;
 
     LookAndFeel customLook;
-
 
     DeckGUI* deckGUI1;
     DeckGUI* deckGUI2;

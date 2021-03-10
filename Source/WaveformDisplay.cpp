@@ -49,7 +49,7 @@ void WaveformDisplay::paint (juce::Graphics& g)
     }
     else
     {
-        g.setFont(20.0f);
+        g.setFont(getHeight()/4);
         g.drawText("File not loaded...", getLocalBounds(),
                     juce::Justification::centred, true);   // draw some placeholder text
     }

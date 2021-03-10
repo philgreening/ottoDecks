@@ -33,6 +33,11 @@
 
     addAndMakeVisible(waveformDisplay);
 
+    //addAndMakeVisible(trackInfo);
+    //trackInfo.setButtonText("Currently playing: " + trackName + " " + player->getTrackCurrentPos());
+    //trackInfo.setLookAndFeel(&customLook);
+    //trackInfo.
+
     addAndMakeVisible(volSlider);
     addAndMakeVisible(speedSlider);
     addAndMakeVisible(posSlider);
@@ -67,7 +72,7 @@
     speedSlider.setLookAndFeel(&speedLook);
     posSlider.setLookAndFeel(&waveformDisplay);
     volSlider.setLookAndFeel(&customLook);
-
+    
     startTimer(200);
 }
 
@@ -79,9 +84,14 @@ DeckGUI::~DeckGUI()
 
 void DeckGUI::paint (juce::Graphics& g)
 {
-    g.setColour(juce::Colours::white);
-    g.drawText(trackName, getWidth()/2, getHeight()/2, 50, 50, juce::Justification::centredLeft);
+    juce::Rectangle<int> trackInfoBox(0, getHeight() / 3.2, getWidth(), getHeight() / 14);
+    g.setColour(juce::Colours::antiquewhite);
+    g.fillRect(trackInfoBox);
+    g.setColour(juce::Colours::darkred);
+    g.setFont(getHeight()/40);
+    g.drawText(trackName + "    " + player->getTrackCurrentPos(), trackInfoBox, juce::Justification::centred);
     DBG("DeckGUI::paint track name:" << trackName);
+    DBG("DeckGUI::paint  current track pos: :" << player->getTrackCurrentPos());
 }
 
 void DeckGUI::resized()
@@ -94,16 +104,16 @@ void DeckGUI::resized()
     using Track = juce::Grid::TrackInfo;
     using Fr = juce::Grid::Fr;
 
-    grid.templateRows = { Track(Fr(1)), Track(Fr(1)), Track(Fr(1)), Track(Fr(1)), Track(Fr(2)) };
+    grid.templateRows = { Track(Fr(2)), Track(Fr(2)),Track(Fr(1)), Track(Fr(2)), Track(Fr(2)), Track(Fr(4)) };
     grid.templateColumns = { Track(Fr(1)), Track(Fr(1)), Track(Fr(1)),Track(Fr(1)) };
 
     grid.items = { juce::GridItem(playButton).withArea(1,1,1,3),
                    juce::GridItem(stopButton).withArea(1,3,1,5),
                    juce::GridItem(waveformDisplay).withArea(2,1,2,5),
                    juce::GridItem(posSlider).withArea(2,1,2,5),
-                   juce::GridItem(speedSlider).withArea(3,1,5,4),
-                   juce::GridItem(volSlider).withArea(3,4,5,5),
-                   juce::GridItem(equalizerDials).withArea(5,1,5,5),
+                   juce::GridItem(speedSlider).withArea(4,1,6,4),
+                   juce::GridItem(volSlider).withArea(4,4,6,5),
+                   juce::GridItem(equalizerDials).withArea(6,1,6,5),
                    };
     grid.setGap(juce::Grid::Px(5));
 
@@ -116,14 +126,12 @@ void DeckGUI::buttonClicked(juce::Button* button)
 {
     if (button == &playButton)
     {
-        std::cout << "Play button was clicked " << std::endl;
-        //playing = true;
+        DBG("Play button was clicked ");
         player->start();
     }
     if (button == &stopButton)
     {
-        std::cout << "Stop button was clicked " << std::endl;
-        //playing = false;
+        DBG("Stop button was clicked ");
         player->stop();
     }
 
@@ -149,12 +157,12 @@ void DeckGUI::sliderValueChanged(juce::Slider* slider)
 
 bool DeckGUI::isInterestedInFileDrag(const juce::StringArray& files)
 {
-    std::cout << "DeckGUI::isInterestedinFileDrag" << std::endl;
+    DBG("DeckGUI::isInterestedinFileDrag");
     return true;
 }
 void DeckGUI::filesDropped(const juce::StringArray& files, int x, int y)
 {
-    std::cout << "DeckGUI::filesDropped" << std::endl;
+    DBG("DeckGUI::filesDropped");
     if (files.size() == 1)
     {
         player->loadURL(juce::URL{ juce::File{files[0]} });
@@ -163,20 +171,22 @@ void DeckGUI::filesDropped(const juce::StringArray& files, int x, int y)
 
 void DeckGUI::timerCallback()
 {
-   // std::cout << "DeckGUI::timerCallBack" << std::endl;
     auto posRelative = player->getPositionRelative();
     //DBG("DeckGUI::timerCallback position: " << posRelative);
 
     waveformDisplay.setPositionRelative(posRelative);
-
+    //updates slider to position of track
     if (posRelative >= 0)
     {
         posSlider.setValue(posRelative);
+        
     }
-    if (posRelative >= 1)
+    //sets track back to start when finished
+    if (posSlider.getValue() == 1)
     {
-        player->setPosition(0);
+        posSlider.setValue(0);
     }
+    repaint();
 }
 void DeckGUI::loadFile(juce::URL audioURL)
 {
