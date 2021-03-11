@@ -57,7 +57,7 @@ void EqualizerDials::paint (juce::Graphics& g)
 
     //sets text colour, size and position and draws text
     g.setColour (juce::Colours::antiquewhite);
-    g.setFont (getHeight() / 9);
+    g.setFont ((float)getHeight() / 9);
 
     int x = getWidth() / 3;
     int y = getHeight() / 20;

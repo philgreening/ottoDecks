@@ -226,6 +226,10 @@ bool PlaylistComponent::findTrack(juce::String fileName)
     {
         return true;
     }
+    else
+    {
+        return false;
+    }
 }
 
 void PlaylistComponent::searchTracks(juce::String searchTerm)

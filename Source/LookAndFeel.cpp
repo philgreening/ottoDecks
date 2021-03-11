@@ -102,7 +102,7 @@ void LookAndFeel::drawLinearSlider(juce::Graphics& g,
     for (auto  i = numTicks; i >= 0; i--)
     {
         auto numbers = juce::String(i);
-        g.setFont(height/13);
+        g.setFont((float)height/13);
         g.setColour(juce::Colours::black);
         g.drawText(numbers, tickLabel, juce::Justification::left);
         g.drawText(numbers, tickLabel, juce::Justification::right);
