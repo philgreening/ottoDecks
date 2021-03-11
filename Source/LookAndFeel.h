@@ -11,15 +11,17 @@
 #pragma once
 
 #include <JuceHeader.h>
-//#include "WaveformDisplay.h"
-//#include "DeckGUI.h"
 
 class LookAndFeel : public juce::LookAndFeel_V4
 {
 public:
+    /**Constructor*/
     LookAndFeel();
+
+    /**Destructor*/
     ~LookAndFeel();
 
+    /** Overrides the look and feel of the Equalizer dials*/
     void drawRotarySlider(juce::Graphics& g,
                           int x, int y,
                           int width, int height,
@@ -28,7 +30,7 @@ public:
                           const float rotaryEndAngle,
                           juce::Slider&) override;
 
-
+    /**Overrides the look and feel of the volume slider*/
     void drawLinearSlider(juce::Graphics& g,
                           int x, int y,
                           int width, int height,
@@ -38,5 +40,6 @@ public:
                           const juce::Slider::SliderStyle,
                           juce::Slider&) override;
 
+    /**Sets the font size of the button */
     juce::Font LookAndFeel::getTextButtonFont(juce::TextButton&, int buttonHeight) override;
 };

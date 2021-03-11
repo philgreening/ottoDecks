@@ -28,17 +28,18 @@ class DeckGUI : public juce::Component,
                 public juce::Timer        
 {
 public:
-
+    /** Constructor */
     DeckGUI(DJAudioPlayer* player,
         juce::AudioFormatManager& formatManagerToUse,
         juce::AudioThumbnailCache& cacheToUse);
-        //EqualizerDials equalizerDials);
-            
-        
-
+             
+    /** Destructor */
     ~DeckGUI() override;
 
+    /** Paints to deck*/
     void paint (juce::Graphics&) override;
+
+    /** implement layout of deck*/
     void resized() override;
 
     /** implement button listener */
@@ -47,25 +48,24 @@ public:
     /** implement Slider:: listner*/
     void sliderValueChanged(juce::Slider* slider) override;
 
+    /** Checks if file drag from external source is being detected */
     bool isInterestedInFileDrag (const juce::StringArray &files) override;
+
+    /** Receives external files dragged and dropped and passes them to DJAudioPlayer and WaveformDisplay*/
     void filesDropped(const juce::StringArray &files, int x, int y) override;
 
+    /** listens for changes to the waveform position and updates pos slider and track info*/
     void timerCallback() override;
 
+    /** Receives audio URL and loads it to the DJAudioPlayer and WaveformDisplay */
     void loadFile(juce::URL audioURL);
 
-    //juce::Slider volSlider;
-
+    /** Variable to hold track name passed from PlaylistComponent*/
     juce::String trackName;
 
-
-
 private:
- 
-
     juce::TextButton playButton{ "Play" };
     juce::TextButton stopButton{ "Stop" };
-    //juce::TextButton loadButton{ "LOAD" };
 
     juce::Slider volSlider;
     juce::Slider speedSlider;
@@ -76,13 +76,9 @@ private:
     juce::String trackCurrenPos;
 
     DJAudioPlayer* player;
-    
     WaveformDisplay waveformDisplay;
-
     EqualizerDials equalizerDials;
-
     LookAndFeel customLook;
-
     AudioSpeedLookAndFeel speedLook;
 
 

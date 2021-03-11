@@ -13,17 +13,14 @@
 DJAudioPlayer::DJAudioPlayer(juce::AudioFormatManager& _formatManager)
                             : formatManager(_formatManager)
 {
-
 }
 DJAudioPlayer::~DJAudioPlayer()
 {
-
 }
 
 void DJAudioPlayer::prepareToPlay(int samplesPerBlockExpected, double sampleRate) 
 {
     sampleRateStored = sampleRate;
-    DBG("DJAudioPlayer::prepareToPlay - sampleRate " << sampleRateStored);
 
     transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
     resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);;
@@ -41,6 +38,7 @@ void DJAudioPlayer::releaseResources()
 
 void DJAudioPlayer::loadURL(juce::URL audioURL)
 {
+    // load file
     auto* reader = formatManager.createReaderFor(audioURL.createInputStream(false));
     if (reader != nullptr)//good file!
     {
@@ -48,7 +46,6 @@ void DJAudioPlayer::loadURL(juce::URL audioURL)
         transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
         readerSource.reset(newSource.release());
     }
-
 }
 
 void DJAudioPlayer::setGain(double gain)
@@ -91,8 +88,6 @@ void DJAudioPlayer::stop()
 
 double DJAudioPlayer::getPositionRelative()
 {
-    //DBG("DJAudioPlayer::getPositionRelative current pos" << transportSource.getCurrentPosition());
-
     return transportSource.getCurrentPosition() / transportSource.getLengthInSeconds();
 }
 
@@ -100,7 +95,7 @@ void DJAudioPlayer::setPositionRelative(double pos)
 {
     if (pos < 0 || pos > 1.0)
     {
-        std::cout << "DJAudioPlayer::setPositionRelative . pos should be between 0 and 1" << std::endl;
+        DBG("DJAudioPlayer::setPositionRelative - pos should be between 0 and 1");
     }
     else {
         double posInSeconds = transportSource.getLengthInSeconds() * pos;
@@ -121,11 +116,7 @@ void DJAudioPlayer::setBass(double bassGain)
     }
     else{
         bassFilter.setCoefficients(juce::IIRCoefficients::makeLowShelf(sampleRateStored, 300, 1, bassGain));
-
-        DBG("DJAudiPlayer::filters - sampleRateStored " << sampleRateStored);
-        DBG("DJAudiPlayer::filters - bassGain " << bassGain);
     }
-
 }
 
 void DJAudioPlayer::setMid(double midGain)
@@ -136,11 +127,7 @@ void DJAudioPlayer::setMid(double midGain)
     }
     else{
         midFilter.setCoefficients(juce::IIRCoefficients::makePeakFilter(sampleRateStored, 4000, 1, midGain));
-
-        DBG("DJAudiPlayer::filters - sampleRateStored " << sampleRateStored);
-        DBG("DJAudiPlayer::filters - midGain " << midGain);
     }
-
 }
 
 void DJAudioPlayer::setTreble(double trebleGain)
@@ -151,25 +138,21 @@ void DJAudioPlayer::setTreble(double trebleGain)
     }
     else{
         trebleFilter.setCoefficients(juce::IIRCoefficients::makeHighShelf(sampleRateStored, 10000, 1, trebleGain));
-
-        DBG("DJAudiPlayer::filters - sampleRateStored " << sampleRateStored);
-        DBG("DJAudiPlayer::filters - trebleGain " << trebleGain);
     }
 }
 
 juce::String DJAudioPlayer::getTrackCurrentPos()
 {
-
+    //calculate minutes and seconds
     int minutes (transportSource.getCurrentPosition() /60);
     int seconds((int)transportSource.getCurrentPosition() % 60);
 
     juce::String trackCurrentPos = std::to_string(minutes) + ":" + std::to_string(seconds);
 
+    //adds a extra zero at begining of seconds if < 10
     if (seconds < 10)
     {
         trackCurrentPos = std::to_string(minutes) + ":" + "0" + std::to_string(seconds);
     }
-    //DBG("DJAudioPlayer::getTrackCurrentPos" << trackCurrentPos);
-    
     return trackCurrentPos;
 }

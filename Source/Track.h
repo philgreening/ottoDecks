@@ -18,21 +18,21 @@
 class Track  
 {
 public:
-    //Track(juce::File _file);
+    /**Constructor */
     Track(juce::String title,
           juce::String length,
           juce::URL URL);
-
+    /** */
     ~Track();
 
+    /**Stores track title */
     juce::String title;
+
+    /**Stores track length */
     juce::String length;
+
+    /**Stores track url */
     juce::URL url;
 
-
-private:
-
-    
-   
-    //JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Track)
+private:   
 };

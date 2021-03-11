@@ -20,12 +20,20 @@ public:
     ~MainComponent() override;
 
     //==============================================================================
+    /** Prepares resources ready for playback */
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override;
+
+    /** Fetches blocks of audio data */
     void getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill) override;
+
+    /** Releases memory at end of playback*/
     void releaseResources() override;
 
     //==============================================================================
+    /** Paints background colour*/
     void paint (juce::Graphics& g) override;
+
+    /** implement layout of components*/
     void resized() override;
 
 private:

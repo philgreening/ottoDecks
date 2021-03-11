@@ -18,11 +18,19 @@
 class AudioSpeedLookAndFeel  : public juce::LookAndFeel_V4
 {
 public:
+    /** Constructor*/
     AudioSpeedLookAndFeel();
+
+    /** Destructor */
     ~AudioSpeedLookAndFeel() override;
 
-    void drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
-        const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider&) override;
+    /** Overrides the look and feel of the Speed slider*/
+    void drawRotarySlider(juce::Graphics& g,
+                          int x, int y,
+                          int width, int height,
+                          float sliderPos,
+                          const float rotaryStartAngle,
+                          const float rotaryEndAngle, juce::Slider&) override;
 
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioSpeedLookAndFeel)

@@ -31,36 +31,46 @@ void LookAndFeel::drawRotarySlider(juce::Graphics& g,
                                    const float rotaryEndAngle,
                                    juce::Slider&)
 {
+    //sets radius of each ellipse
     auto radius = (float)juce::jmin(width /2, height / 2) - 8.0f;
     auto radiusSmall = (float)juce::jmin(width / 4, height / 4) - 4.0f;
+
     auto centreX = (float)x + (float)width * 0.5f;
     auto centreY = (float)y + (float)height * 0.5f;
+
+    // Outer ellipse and inner ellipse settings
     auto rx = centreX - radius;
     auto ry = centreY - radius;
     auto rw = radius * 2.0f;
     auto rxSmall = centreX - radiusSmall;
     auto rySmall = centreY - radiusSmall;
     auto rwSmall = radiusSmall * 2.0f;
+
+    //sets angle of rotary slider
+
     auto angle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
 
-    // fill
+    // fill outer ellipse
     g.setColour(juce::Colours::antiquewhite);
     g.fillEllipse(rx, ry, rw, rw);
 
-    // outline
+    // outline of outer ellipse
     g.setColour(juce::Colours::black);
     g.drawEllipse(rx, ry, rw, rw, 2.0f);
 
+    // fill inner ellipse
     g.setColour(juce::Colours::darkslategrey);
     g.fillEllipse(rxSmall, rySmall , rwSmall, rwSmall);
 
+    //draws pointer along path and updates relating to slider position
     juce::Path p;
     auto pointerLength = radius * 0.33f;
     auto pointerThickness = 3.0f;
-    p.addRectangle(-pointerThickness * 0.5f, -radius, pointerThickness, pointerLength);
+    p.addRectangle(-pointerThickness * 0.5f,
+                   -radius, pointerThickness,
+                   pointerLength);
     p.applyTransform(juce::AffineTransform::rotation(angle).translated(centreX, centreY));
 
-    // pointer
     g.setColour(juce::Colours::black);
     g.fillPath(p);
 }
@@ -74,13 +84,13 @@ void LookAndFeel::drawLinearSlider(juce::Graphics& g,
                                    const juce::Slider::SliderStyle,
                                    juce::Slider&)
 {
-
     auto h1 = height / 70;
     auto h2 = height / 11;
     auto x1 = width / 2.3;
     auto x2 = width / 3;
     auto w1 = width / 8;
     
+    //setup bounds for volume ticks and numbers
     juce::Rectangle<int> tick(width / 2.7, y, width /4, h1);
     juce::Rectangle<int> tickLabel(width /7, y, width/1.4 , h1);
 
@@ -88,6 +98,7 @@ void LookAndFeel::drawLinearSlider(juce::Graphics& g,
 
     auto numTicks = 11;
 
+    //draw numbers and ticks
     for (auto  i = numTicks; i >= 0; i--)
     {
         auto numbers = juce::String(i);
@@ -100,11 +111,12 @@ void LookAndFeel::drawLinearSlider(juce::Graphics& g,
         tick.translate(0, h2);
         tickLabel.translate(0, h2);
     }
-
+    //fill slider red when slider is moved
     g.fillRect(x1, y, w1, height);
     g.setColour(juce::Colours::darkred);
     g.fillRect(x1, (int) sliderPos, w1,  (int)minSliderPos - (int)sliderPos);
 
+    //draw volume slider control
     g.setColour(juce::Colours::darkslategrey);
     g.fillRoundedRectangle(x2, (int)sliderPos, x2, height / 20, 5);
 }

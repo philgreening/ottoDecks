@@ -20,20 +20,19 @@ WaveformDisplay::WaveformDisplay(juce::AudioFormatManager& formatManagerToUse,
                                  position(0)
                                 
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-
     audioThumb.addChangeListener(this);
 }
 
 WaveformDisplay::~WaveformDisplay()
 {
+    setLookAndFeel(nullptr);
 }
 
 void WaveformDisplay::paint (juce::Graphics& g)
 {
     //fill wavform background
     g.fillAll(juce::Colours::antiquewhite);
+
     //set colour of waveform
     g.setColour (juce::Colours::darkred);
 
@@ -55,12 +54,6 @@ void WaveformDisplay::paint (juce::Graphics& g)
     }
 }
 
-    
-
-void WaveformDisplay::resized()
-{
-}
-
 void WaveformDisplay::loadURL(juce::URL audioURL)
 {
     DBG("wfd:: loadURL");
@@ -80,10 +73,8 @@ void WaveformDisplay::loadURL(juce::URL audioURL)
 
 void WaveformDisplay::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
-    std::cout << "wfd: change recieved! " << std::endl;
     DBG("wfd: change recieved! ");
     repaint();
-
 }
 
 void WaveformDisplay::setPositionRelative(double pos)
@@ -100,6 +91,7 @@ void WaveformDisplay::drawLinearSlider(juce::Graphics& g, int x, int y,
                                        float minSliderPos, float maxSliderPos,
                                        const juce::Slider::SliderStyle, juce::Slider&)
 {
+    //draws playhead slider and sets it relative to track position
     g.setColour(juce::Colours::darkslategrey);
     g.setOpacity(0.5);
     g.fillRect(position * getWidth(), 0, getWidth() / 20, getHeight());

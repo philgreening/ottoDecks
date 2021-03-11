@@ -25,24 +25,28 @@ class PlaylistComponent  : public juce::Component,
                            public juce::FileDragAndDropTarget
 {
 public:
+    /**Constructor */
     PlaylistComponent(DeckGUI* _deckGUI1,
                       DeckGUI* _deckGUI2,
                       DJAudioPlayer* _player
                       );
-
+    /**Destructor */
     ~PlaylistComponent() override;
-
-    void paint (juce::Graphics&) override;
+    
+    /** */
     void resized() override;
 
+    /**Gets number of rows with content */
     int getNumRows() override;
 
+    /** Paints table row background */
     void paintRowBackground(juce::Graphics&,
                             int rowNumber,
                             int width,
                             int height,
                             bool rowIsSelceted) override;
 
+    /** Paints table cell bacground */
     void paintCell(juce::Graphics&,
                    int rowNumber,
                    int columnId,
@@ -50,40 +54,40 @@ public:
                    int height,
                    bool rowIsSelceted) override;
 
+    /**Updates table cell contents */
     juce::Component* refreshComponentForCell(int rowNumber,
-        int columnId,
-        bool rowIsSelected,
-        juce::Component *existingComponentToUpdate) override;
-
+                                             int columnId,
+                                             bool rowIsSelected,
+                                             juce::Component *existingComponentToUpdate) override;
+    /**Implement button listner */
     void buttonClicked(juce::Button* button) override;
 
+    /** Checks if file drag from external source is being detected */
     bool isInterestedInFileDrag(const juce::StringArray& files) ;
+
+    /** Receives external files dragged and dropped and passes them to DJAudioPlayer and WaveformDisplay*/
     void filesDropped(const juce::StringArray& files, int x, int y) override;
 
+    /**Loads track file to DeckGUI for playback and updates track info */
     void loadTrack(DeckGUI* deckGUI);
 
-    juce::String trackName;
+    /**Stores track title to pass onto Deck GUI */
+    juce::String trackTitle;
 
-    
 private:
-
     void importTrack();
     bool findTrack(juce::String fileName);
     void searchTracks(juce::String searchTerm);
     int findPositionInTrack(juce::String searchTerm);
-    //void loadTrack(DeckGUI* deckGUI);
     void removeTrack(int id);
     juce::String getTrackLength(juce::URL url);
     void saveTracklist();
     void loadTracklist();
     
-
     juce::TableListBox tableComponent;
-   
-    std::vector<Track> trackData;
 
     juce::File trackListFile;
-
+    std::vector<Track> trackData;
     std::unique_ptr<juce::XmlElement> xmlData;
 
     juce::TextButton importButton{ "Import Track" };
@@ -92,9 +96,7 @@ private:
     juce::TextEditor searchBar;
 
     DJAudioPlayer* player;
-
     LookAndFeel customLook;
-
     DeckGUI* deckGUI1;
     DeckGUI* deckGUI2;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlaylistComponent)

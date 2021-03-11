@@ -19,10 +19,10 @@ MainComponent::MainComponent()
         // Specify the number of input and output channels that we want to open
         setAudioChannels (2, 2);
     }
-  
+
+    //make components visable  
     addAndMakeVisible(deckGUI1);
     addAndMakeVisible(deckGUI2);
-
     addAndMakeVisible(playlistComponent);
 
     formatManager.registerBasicFormats();
@@ -33,6 +33,7 @@ MainComponent::~MainComponent()
 {
     // This shuts down the audio device and clears the audio source.
     shutdownAudio();
+    setLookAndFeel(nullptr);
 }
 
 //==============================================================================
@@ -82,18 +83,18 @@ void MainComponent::paint (juce::Graphics& g)
 
 void MainComponent::resized() 
 {
+    //sets up grid for layout
     juce::Grid grid;
-
     using Track = juce::Grid::TrackInfo;
     using Fr = juce::Grid::Fr;
 
     grid.templateRows = { Track(Fr(1)) };
     grid.templateColumns = { Track(Fr(1)), Track(Fr(1)), Track(Fr(1)) };
 
+    //lays out components onto the grid
     grid.items = { juce::GridItem(playlistComponent), juce::GridItem(deckGUI1), juce::GridItem(deckGUI2) };
 
     grid.setGap(juce::Grid::Px(5));
-
     grid.performLayout(getLocalBounds());
 }
 

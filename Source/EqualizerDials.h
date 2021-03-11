@@ -21,20 +21,22 @@ class EqualizerDials : public juce::Component,
                        public juce::Slider::Listener
 {
 public:
+    /**Constructor*/
     EqualizerDials(DJAudioPlayer* player);
+
+    /**Destructor*/
     ~EqualizerDials() override;
 
+    /** implement Slider:: listner*/
     void sliderValueChanged(juce::Slider* slider) override;
 
+    /** Draws backgound and component text*/
     void paint (juce::Graphics&) override;
+
+    /** implement layout of dials*/
     void resized() override;
 
-    //void drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
-    //    const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider&) override;
-
 private:
-    //DialLookAndFeel customLook;
-
     juce::Slider bassDial;
     juce::Slider midDial;
     juce::Slider trebleDial;
