@@ -63,9 +63,9 @@ public:
 private:
  
 
-    juce::TextButton playButton{ "PLAY" };
-    juce::TextButton stopButton{ "STOP" };
-    juce::TextButton loadButton{ "LOAD" };
+    juce::TextButton playButton{ "Play" };
+    juce::TextButton stopButton{ "Stop" };
+    //juce::TextButton loadButton{ "LOAD" };
 
     juce::Slider volSlider;
     juce::Slider speedSlider;

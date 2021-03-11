@@ -21,7 +21,8 @@
 class PlaylistComponent  : public juce::Component,
                            public juce::TableListBoxModel,
                            public juce::Button::Listener,
-                           public juce::TextEditor::Listener
+                           public juce::TextEditor::Listener,
+                           public juce::FileDragAndDropTarget
 {
 public:
     PlaylistComponent(DeckGUI* _deckGUI1,
@@ -55,6 +56,9 @@ public:
         juce::Component *existingComponentToUpdate) override;
 
     void buttonClicked(juce::Button* button) override;
+
+    bool isInterestedInFileDrag(const juce::StringArray& files) ;
+    void filesDropped(const juce::StringArray& files, int x, int y) override;
 
     void loadTrack(DeckGUI* deckGUI);
 

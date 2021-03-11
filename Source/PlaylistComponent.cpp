@@ -21,13 +21,9 @@ PlaylistComponent::PlaylistComponent(DeckGUI* _deckGUI1,
                                         deckGUI2(_deckGUI2),
                                         player(_player)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-
     tableComponent.getHeader().addColumn("Track title", 1, 158);
     tableComponent.getHeader().addColumn("Length", 2, 50);
     tableComponent.getHeader().addColumn("Remove", 3, 55);
-    
 
     tableComponent.setModel(this);
 
@@ -48,9 +44,8 @@ PlaylistComponent::PlaylistComponent(DeckGUI* _deckGUI1,
     searchBar.setLookAndFeel(&customLook);
     tableComponent.setLookAndFeel(&customLook);
 
-    searchBar.setTextToShowWhenEmpty("Search for a track...", juce::Colours::darkred);
     searchBar.setFont(20.0f);
-
+    searchBar.setTextToShowWhenEmpty("Search for a track...", juce::Colours::darkred);
     searchBar.onReturnKey = [this] {searchTracks(searchBar.getText()); };
 
     trackListFile = juce::File::getSpecialLocation(juce::File::SpecialLocationType::userMusicDirectory).getChildFile("TrackList.xml");
@@ -65,13 +60,6 @@ PlaylistComponent::~PlaylistComponent()
 
 void PlaylistComponent::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
 }
 
 void PlaylistComponent::resized()
@@ -195,7 +183,6 @@ void PlaylistComponent::buttonClicked(juce::Button* button)
 
 void PlaylistComponent::importTrack()
 {
-
     juce::FileChooser fileSelect{ "Select file to import" };
 
     if (fileSelect.browseForMultipleFilesToOpen())
@@ -224,7 +211,12 @@ void PlaylistComponent::importTrack()
 bool PlaylistComponent::findTrack(juce::String fileName)
 {
     std::string file = fileName.toStdString();
-    auto it = std::find_if(trackData.begin(), trackData.end(), [&file](const Track& t) {return t.title.toStdString() == file; });
+
+    auto it = std::find_if(trackData.begin(),
+              trackData.end(),
+              [&file](const Track& t)
+              {return t.title.toStdString() == file; });
+
     if (it != trackData.end())
     {
         return true;
@@ -247,8 +239,10 @@ void PlaylistComponent::searchTracks(juce::String searchTerm)
 
 int PlaylistComponent::findPositionInTrack(juce::String searchTerm)
 {
-    //std::string file = searchTerm.toStdString();
-    auto it = std::find_if(trackData.begin(), trackData.end(), [&searchTerm](const Track& t) {return t.title.containsIgnoreCase(searchTerm); });
+    auto it = std::find_if(trackData.begin(),
+              trackData.end(),
+              [&searchTerm](const Track& t)
+              {return t.title.containsIgnoreCase(searchTerm); });
 
     int pos = -1;
 
@@ -329,6 +323,35 @@ void PlaylistComponent::loadTracklist()
             Track addTrack{ title, length, url };
 
             trackData.push_back(addTrack);
+        }
+    }
+}
+bool PlaylistComponent::isInterestedInFileDrag(const juce::StringArray& files)
+{
+    DBG("PlaylistComponent::isInterestedinFileDrag");
+    return true;
+}
+void PlaylistComponent::filesDropped(const juce::StringArray& files, int x, int y)
+{
+    DBG("PlaylistComponent::filesDropped");
+    if (files.size() == 1)
+    {
+        juce::File file =  juce::File{files[0]};
+        juce::String fileName =  file.getFileNameWithoutExtension();
+        if (!findTrack(fileName))
+        {
+            juce::URL url{ file };
+            juce::String length = getTrackLength(url);
+            Track addTrack(fileName, length, url);
+            trackData.push_back(addTrack);
+            tableComponent.updateContent();
+        }
+        else
+        {
+            juce::AlertWindow::showMessageBox(juce::AlertWindow::AlertIconType::NoIcon,
+                "Import Error",
+                fileName + " is already in your library",
+                "", nullptr);
         }
     }
 }

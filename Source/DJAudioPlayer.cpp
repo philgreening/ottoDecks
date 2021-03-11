@@ -169,7 +169,7 @@ juce::String DJAudioPlayer::getTrackCurrentPos()
     {
         trackCurrentPos = std::to_string(minutes) + ":" + "0" + std::to_string(seconds);
     }
-    DBG("DJAudioPlayer::getTrackCurrentPos" << trackCurrentPos);
+    //DBG("DJAudioPlayer::getTrackCurrentPos" << trackCurrentPos);
     
     return trackCurrentPos;
 }

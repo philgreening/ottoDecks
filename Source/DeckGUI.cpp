@@ -21,22 +21,15 @@
                         waveformDisplay(formatManagerToUse, cacheToUse),
                         equalizerDials(_player)                    
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
+
     addAndMakeVisible(playButton);
 
     playButton.setLookAndFeel(&customLook);
     stopButton.setLookAndFeel(&customLook);
 
     addAndMakeVisible(stopButton);
-    //addAndMakeVisible(loadButton);
 
     addAndMakeVisible(waveformDisplay);
-
-    //addAndMakeVisible(trackInfo);
-    //trackInfo.setButtonText("Currently playing: " + trackName + " " + player->getTrackCurrentPos());
-    //trackInfo.setLookAndFeel(&customLook);
-    //trackInfo.
 
     addAndMakeVisible(volSlider);
     addAndMakeVisible(speedSlider);
@@ -47,7 +40,6 @@
     playButton.addListener(this);
     
     stopButton.addListener(this);
-    //loadButton.addListener(this);
 
     volSlider.addListener(this);
     speedSlider.addListener(this);
@@ -90,8 +82,8 @@ void DeckGUI::paint (juce::Graphics& g)
     g.setColour(juce::Colours::darkred);
     g.setFont(getHeight()/40);
     g.drawText(trackName + "    " + player->getTrackCurrentPos(), trackInfoBox, juce::Justification::centred);
-    DBG("DeckGUI::paint track name:" << trackName);
-    DBG("DeckGUI::paint  current track pos: :" << player->getTrackCurrentPos());
+    //DBG("DeckGUI::paint track name:" << trackName);
+    //DBG("DeckGUI::paint  current track pos: :" << player->getTrackCurrentPos());
 }
 
 void DeckGUI::resized()
@@ -166,6 +158,7 @@ void DeckGUI::filesDropped(const juce::StringArray& files, int x, int y)
     if (files.size() == 1)
     {
         player->loadURL(juce::URL{ juce::File{files[0]} });
+        waveformDisplay.loadURL(juce::URL{ juce::File{files[0]} });
     }
 }
 

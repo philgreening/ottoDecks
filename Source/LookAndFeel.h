@@ -20,18 +20,23 @@ public:
     LookAndFeel();
     ~LookAndFeel();
 
-    void drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
-        const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider&) override;
+    void drawRotarySlider(juce::Graphics& g,
+                          int x, int y,
+                          int width, int height,
+                          float sliderPos,
+                          const float rotaryStartAngle, 
+                          const float rotaryEndAngle,
+                          juce::Slider&) override;
 
 
-    void drawLinearSlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos, float minSliderPos, float maxSliderPos, const juce::Slider::SliderStyle, juce::Slider&) override;
+    void drawLinearSlider(juce::Graphics& g,
+                          int x, int y,
+                          int width, int height,
+                          float sliderPos,
+                          float minSliderPos,
+                          float maxSliderPos,
+                          const juce::Slider::SliderStyle,
+                          juce::Slider&) override;
 
-    //void drawButtonText(juce::Graphics&, juce::TextButton&, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
     juce::Font LookAndFeel::getTextButtonFont(juce::TextButton&, int buttonHeight) override;
-
-   
-private:
-
-    //DeckGUI* deckGUI;
-
 };

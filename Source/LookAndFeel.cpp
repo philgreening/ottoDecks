@@ -17,15 +17,19 @@ LookAndFeel::LookAndFeel()
     setColour(juce::TextEditor::backgroundColourId, juce::Colours::antiquewhite);
     setColour(juce::TextEditor::textColourId, juce::Colours::darkslategrey);
     setColour(juce::TableListBox::backgroundColourId, juce::Colours::darkred);
-    //getTextButtonFont(20);
 }
 
 LookAndFeel::~LookAndFeel()
 {
 }
 
-void LookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
-    const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider&)
+void LookAndFeel::drawRotarySlider(juce::Graphics& g,
+                                   int x, int y,
+                                   int width, int height,
+                                   float sliderPos,
+                                   const float rotaryStartAngle,
+                                   const float rotaryEndAngle,
+                                   juce::Slider&)
 {
     auto radius = (float)juce::jmin(width /2, height / 2) - 8.0f;
     auto radiusSmall = (float)juce::jmin(width / 4, height / 4) - 4.0f;
@@ -61,12 +65,15 @@ void LookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width, i
     g.fillPath(p);
 }
 
-void LookAndFeel::drawLinearSlider(juce::Graphics& g, int x, int y, int width, int height,
-    float sliderPos, float minSliderPos, float maxSliderPos,
-    const juce::Slider::SliderStyle, juce::Slider&)
-
+void LookAndFeel::drawLinearSlider(juce::Graphics& g,
+                                   int x, int y,
+                                   int width, int height,
+                                   float sliderPos,
+                                   float minSliderPos,
+                                   float maxSliderPos,
+                                   const juce::Slider::SliderStyle,
+                                   juce::Slider&)
 {
-    auto numTicks = 11;
 
     auto h1 = height / 70;
     auto h2 = height / 11;
@@ -79,9 +86,10 @@ void LookAndFeel::drawLinearSlider(juce::Graphics& g, int x, int y, int width, i
 
     g.fillAll(juce::Colours::antiquewhite);
 
+    auto numTicks = 11;
+
     for (auto  i = numTicks; i >= 0; i--)
     {
-        
         auto numbers = juce::String(i);
         g.setFont(height/13);
         g.setColour(juce::Colours::black);
@@ -93,7 +101,6 @@ void LookAndFeel::drawLinearSlider(juce::Graphics& g, int x, int y, int width, i
         tickLabel.translate(0, h2);
     }
 
-
     g.fillRect(x1, y, w1, height);
     g.setColour(juce::Colours::darkred);
     g.fillRect(x1, (int) sliderPos, w1,  (int)minSliderPos - (int)sliderPos);
@@ -101,11 +108,6 @@ void LookAndFeel::drawLinearSlider(juce::Graphics& g, int x, int y, int width, i
     g.setColour(juce::Colours::darkslategrey);
     g.fillRoundedRectangle(x2, (int)sliderPos, x2, height / 20, 5);
 }
-
-//void LookAndFeel::drawButtonText(juce::Graphics& g, juce::TextButton&, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
-//{
-//    g.setFont(20.0f);
-//}
 
 juce::Font LookAndFeel::getTextButtonFont(juce::TextButton&, int buttonHeight)
 {
