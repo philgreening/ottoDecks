@@ -366,3 +366,23 @@ void PlaylistComponent::filesDropped(const juce::StringArray& files, int x, int 
         }
     }
 }
+
+juce::var PlaylistComponent::getDragSourceDescription(const juce::SparseSet< int >& rowsToDescribe)
+{
+    int selectedRow{ tableComponent.getSelectedRow() };
+    
+    if (selectedRow != -1)
+    {
+        juce::StringArray td;
+        juce::String url = trackData[selectedRow].url.toString(false);
+        
+        td.insert(0,url);
+        td.insert(1, trackData[selectedRow].title);
+
+        return td;
+    }
+    else
+    {
+        return false;
+    }
+}

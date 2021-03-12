@@ -22,7 +22,8 @@ class PlaylistComponent  : public juce::Component,
                            public juce::TableListBoxModel,
                            public juce::Button::Listener,
                            public juce::TextEditor::Listener,
-                           public juce::FileDragAndDropTarget
+                           public juce::FileDragAndDropTarget,
+                           public juce::DragAndDropContainer
 {
 public:
     /**Constructor */
@@ -68,6 +69,9 @@ public:
     /** Receives external files dragged and dropped and passes them to DJAudioPlayer and WaveformDisplay*/
     void filesDropped(const juce::StringArray& files, int x, int y) override;
 
+    /** gets row information on drag and stores it in an array of strings to pass to DeckGUI::isInterestedInDragSource*/
+    juce::var getDragSourceDescription(const juce::SparseSet< int >& rowsToDescribe) override;
+
     /**Loads track file to DeckGUI for playback and updates track info */
     void loadTrack(DeckGUI* deckGUI);
 
@@ -99,5 +103,6 @@ private:
     LookAndFeel customLook;
     DeckGUI* deckGUI1;
     DeckGUI* deckGUI2;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlaylistComponent)
 };

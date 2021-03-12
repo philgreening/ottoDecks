@@ -142,21 +142,6 @@ void DeckGUI::sliderValueChanged(juce::Slider* slider)
     }
 }
 
-bool DeckGUI::isInterestedInFileDrag(const juce::StringArray& files)
-{
-    DBG("DeckGUI::isInterestedinFileDrag");
-    return true;
-}
-void DeckGUI::filesDropped(const juce::StringArray& files, int x, int y)
-{
-    DBG("DeckGUI::filesDropped");
-    if (files.size() == 1)
-    {
-        player->loadURL(juce::URL{ juce::File{files[0]} });
-        waveformDisplay.loadURL(juce::URL{ juce::File{files[0]} });
-    }
-}
-
 void DeckGUI::timerCallback()
 {
     auto posRelative = player->getPositionRelative();
@@ -183,3 +168,17 @@ void DeckGUI::loadFile(juce::URL audioURL)
     waveformDisplay.loadURL(audioURL);
 }
 
+bool DeckGUI::isInterestedInDragSource(const SourceDetails& dragSourceDetails)
+{
+    DBG("DeckGUI::isInterestedinFileDragSource");
+    return true;
+}
+
+void DeckGUI::itemDropped(const SourceDetails& dragSourceDetails)
+{
+    juce::URL audioURL = juce::URL(dragSourceDetails.description[0]);
+    trackName = dragSourceDetails.description[1];
+
+    player->loadURL(audioURL);
+    waveformDisplay.loadURL(audioURL);
+}

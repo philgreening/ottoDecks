@@ -24,8 +24,9 @@
 class DeckGUI : public juce::Component,
                 public juce::Button::Listener,
                 public juce::Slider::Listener,
-                public juce::FileDragAndDropTarget,
-                public juce::Timer        
+                //public juce::FileDragAndDropTarget,
+                public juce::Timer,
+                public juce::DragAndDropTarget
 {
 public:
     /** Constructor */
@@ -48,12 +49,6 @@ public:
     /** implement Slider:: listner*/
     void sliderValueChanged(juce::Slider* slider) override;
 
-    /** Checks if file drag from external source is being detected */
-    bool isInterestedInFileDrag (const juce::StringArray &files) override;
-
-    /** Receives external files dragged and dropped and passes them to DJAudioPlayer and WaveformDisplay*/
-    void filesDropped(const juce::StringArray &files, int x, int y) override;
-
     /** listens for changes to the waveform position and updates pos slider and track info*/
     void timerCallback() override;
 
@@ -62,6 +57,12 @@ public:
 
     /** Variable to hold track name passed from PlaylistComponent*/
     juce::String trackName;
+
+    /** Checks if row drag from playlist component is being detected*/
+    bool isInterestedInDragSource(const SourceDetails& dragSourceDetails) override;
+
+    /** Receives array of strings dragged and dropped from playlist and passes them to DJAudioPlayer and WaveformDisplay*/
+    void itemDropped(const SourceDetails& dragSourceDetails) override;
 
 private:
     juce::TextButton playButton{ "Play" };
@@ -80,7 +81,6 @@ private:
     EqualizerDials equalizerDials;
     LookAndFeel customLook;
     AudioSpeedLookAndFeel speedLook;
-
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DeckGUI)
 };
