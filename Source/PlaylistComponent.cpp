@@ -381,4 +381,8 @@ juce::var PlaylistComponent::getDragSourceDescription(const juce::SparseSet< int
 
         return td;
     }
+    else
+    {
+        return false;
+    }
 }
